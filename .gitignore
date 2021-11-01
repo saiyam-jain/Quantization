@@ -3,3 +3,16 @@ cmd.txt
 env
 examples.desktop
 wandb
+.bash_history
+.bash_logout
+.bashrc
+.cache/
+.config/
+.keras/
+.local/
+.netrc
+.nv/
+.profile
+.python_history
+.ssh/
+.viminfo
