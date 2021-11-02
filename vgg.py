@@ -1,10 +1,11 @@
 import tensorflow as tf
 import wandb
 from tensorflow.keras import layers
+import numpy
 
 wandb.init(project='quantization', entity='saiyam-jain')
 
-EPOCHS = 100
+EPOCHS = 200
 BATCH_SIZE = 32
 LR = 0.0001
 
@@ -106,9 +107,10 @@ for epoch in range(EPOCHS):
           " Validation Loss: ", test_loss.result(),
           " Validation Accuracy: ", test_accuracy.result() * 100)
 
+    (loss, acc) = train_loss.result(), train_accuracy.result()
+    (val_loss, val_acc) = test_loss.result(), test_accuracy.result()
     wandb.log({"epoch": epoch+1,
-               "train_loss": train_loss.numpy(),
-               "train_accuracy": train_accuracy.numpy(),
-               "val_loss": test_loss.numpy(),
-               "val_accuracy": test_accuracy.numpy()
-               })
+               "train_loss": loss.numpy(),
+               "train_accuracy": acc.numpy(),
+               "val_loss": val_loss.numpy(),
+               "val_accuracy": val_acc.numpy()})
