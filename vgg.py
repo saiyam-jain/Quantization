@@ -5,7 +5,7 @@ from tensorflow.keras.optimizers import Adam
 
 # wandb.init(project='quantization', entity='saiyam-jain')
 
-EPOCHS = 20
+EPOCHS = 100
 BATCH_SIZE = 64
 LR = 0.0001
 
@@ -25,11 +25,6 @@ testY = tf.one_hot(y_test, 10)
 
 trainY = tf.squeeze(trainY, 1)
 testY = tf.squeeze(testY, 1)
-
-print(x_train.shape)
-print(y_train.shape)
-print(x_test.shape)
-print(y_test.shape)
 
 model = tf.keras.Sequential(
         [
@@ -57,7 +52,7 @@ model = tf.keras.Sequential(
 model.summary()
 
 model.compile(optimizer=Adam(learning_rate = LR), loss="categorical_crossentropy", metrics=['accuracy'])
-history = model.fit(x_train, y_train, epochs=EPOCHS, batch_size=BATCH_SIZE, steps_per_epoch=1, validation_data=(x_test, y_test), verbose=2)
+history = model.fit(trainX, trainY, epochs=EPOCHS, batch_size=BATCH_SIZE, steps_per_epoch=1, validation_data=(testX, testY), verbose=2)
 print(history.history)
 # wandb.tensorflow.log(tf.summary.merge_all())
 

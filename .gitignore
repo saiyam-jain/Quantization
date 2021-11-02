@@ -16,3 +16,4 @@ wandb
 .python_history
 .ssh/
 .viminfo
+.idea/
