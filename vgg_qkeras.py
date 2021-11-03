@@ -2,6 +2,9 @@ import tensorflow as tf
 import wandb
 from tensorflow.keras import layers
 import numpy
+from tensorflow.keras.models import Model
+import qkeras
+from tensorflow.keras.layers import Input
 
 wandb.init(project='quantization', entity='saiyam-jain')
 
@@ -29,29 +32,76 @@ testY = tf.squeeze(y_test, 1)
 train_ds = tf.data.Dataset.from_tensor_slices((trainX, trainY)).shuffle(10000).batch(BATCH_SIZE)
 test_ds = tf.data.Dataset.from_tensor_slices((testX, testY)).batch(BATCH_SIZE)
 
-model = tf.keras.Sequential(
-        [
-            layers.Conv2D(input_shape=(32, 32, 3), filters=32, kernel_size=(3, 3), padding="same", activation="relu"),
-            layers.Conv2D(filters=32, kernel_size=(3, 3), padding="same", activation="relu"),
-            layers.MaxPool2D(pool_size=(2, 2), strides=(2, 2)),
-            layers.Conv2D(filters=64, kernel_size=(3, 3), padding="same", activation="relu"),
-            layers.Conv2D(filters=64, kernel_size=(3, 3), padding="same", activation="relu"),
-            layers.MaxPool2D(pool_size=(2, 2), strides=(2, 2)),
-            layers.Conv2D(filters=128, kernel_size=(3, 3), padding="same", activation="relu"),
-            layers.Conv2D(filters=128, kernel_size=(3, 3), padding="same", activation="relu"),
-            layers.Conv2D(filters=128, kernel_size=(3, 3), padding="same", activation="relu"),
-            layers.MaxPool2D(pool_size=(2, 2), strides=(2, 2)),
-            layers.Conv2D(filters=256, kernel_size=(3, 3), padding="same", activation="relu"),
-            layers.Conv2D(filters=256, kernel_size=(3, 3), padding="same", activation="relu"),
-            layers.Conv2D(filters=256, kernel_size=(3, 3), padding="same", activation="relu"),
-            layers.MaxPool2D(pool_size=(2, 2), strides=(2, 2)),
-            layers.Flatten(),
-            layers.Dense(units=256, activation="relu"),
-            layers.Dense(units=128, activation="relu"),
-            layers.Dense(units=10, activation="softmax")
-        ]
-)
+x = x_in = Input(shape=(32, 32, 3))
+x = QConv2D(
+    32, (3, 3), padding="same",
+    kernel_quantizer=quantized_bits(4, 0, 1),
+    bias_quantizer=quantized_bits(4, 0, 1))(x)
+x = QActivation("quantized_relu(4,0)")(x)
+x = QConv2D(
+    32, (3, 3), padding="same",
+    kernel_quantizer=quantized_bits(4, 0, 1),
+    bias_quantizer=quantized_bits(4, 0, 1))(x)
+x = QActivation("quantized_relu(4,0)")(x)
+x = layers.MaxPool2D(pool_size=(2, 2), strides=(2, 2))(x)
+x = QConv2D(
+    64, (3, 3), padding="same",
+    kernel_quantizer=quantized_bits(4, 0, 1),
+    bias_quantizer=quantized_bits(4, 0, 1))(x)
+x = QActivation("quantized_relu(4,0)")(x)
+x = QConv2D(
+    64, (3, 3), padding="same",
+    kernel_quantizer=quantized_bits(4, 0, 1),
+    bias_quantizer=quantized_bits(4, 0, 1))(x)
+x = QActivation("quantized_relu(4,0)")(x)
+x = layers.MaxPool2D(pool_size=(2, 2), strides=(2, 2))(x)
+x = QConv2D(
+    128, (3, 3), padding="same",
+    kernel_quantizer=quantized_bits(4, 0, 1),
+    bias_quantizer=quantized_bits(4, 0, 1))(x)
+x = QActivation("quantized_relu(4,0)")(x)
+x = QConv2D(
+    128, (3, 3), padding="same",
+    kernel_quantizer=quantized_bits(4, 0, 1),
+    bias_quantizer=quantized_bits(4, 0, 1))(x)
+x = QActivation("quantized_relu(4,0)")(x)
+x = QConv2D(
+    128, (3, 3), padding="same",
+    kernel_quantizer=quantized_bits(4, 0, 1),
+    bias_quantizer=quantized_bits(4, 0, 1))(x)
+x = QActivation("quantized_relu(4,0)")(x)
+x = layers.MaxPool2D(pool_size=(2, 2), strides=(2, 2))(x)
+x = QConv2D(
+    256, (3, 3), padding="same",
+    kernel_quantizer=quantized_bits(4, 0, 1),
+    bias_quantizer=quantized_bits(4, 0, 1))(x)
+x = QActivation("quantized_relu(4,0)")(x)
+x = QConv2D(
+    256, (3, 3), padding="same",
+    kernel_quantizer=quantized_bits(4, 0, 1),
+    bias_quantizer=quantized_bits(4, 0, 1))(x)
+x = QActivation("quantized_relu(4,0)")(x)
+x = QConv2D(
+    256, (3, 3), padding="same",
+    kernel_quantizer=quantized_bits(4, 0, 1),
+    bias_quantizer=quantized_bits(4, 0, 1))(x)
+x = QActivation("quantized_relu(4,0)")(x)
+x = layers.MaxPool2D(pool_size=(2, 2), strides=(2, 2))(x)
+x = layers.Flatten()(x)
+x = QDense(
+    units=256, kernel_quantizer=quantized_bits(4, 0, 1),
+    bias_quantizer=quantized_bits(4, 0, 1))(x)
+x = QActivation("quantized_relu(4,0)")(x)
+x = QDense(
+    units=128, kernel_quantizer=quantized_bits(4, 0, 1),
+    bias_quantizer=quantized_bits(4, 0, 1))(x)
+x = QActivation("quantized_relu(4,0)")(x)
+x = QDense(
+    units=10, kernel_quantizer=quantized_bits(4, 0, 1),
+    bias_quantizer=quantized_bits(4, 0, 1))(x)
+x_out = x = layers.Activation("softmax")(x)
 
+model = Model(inputs=[x_in], outputs=[x_out])
 model.summary()
 
 loss_object = tf.keras.losses.SparseCategoricalCrossentropy(from_logits=True)
