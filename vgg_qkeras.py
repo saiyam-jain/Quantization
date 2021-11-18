@@ -3,7 +3,7 @@ import wandb
 from tensorflow.keras import layers
 import numpy
 from tensorflow.keras.models import Model
-import qkeras
+from qkeras import *
 from tensorflow.keras.layers import Input
 
 wandb.init(project='quantization', entity='saiyam-jain')
