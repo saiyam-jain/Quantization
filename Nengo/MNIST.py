@@ -16,7 +16,7 @@ img_rows, img_cols = 28, 28
 (X_train, y_train), (X_test, y_test) = tf.keras.datasets.mnist.load_data()
 X_train = (256 * X_train - 128)  # ------Normalize to 0 to 128
 X_test = (256 * X_test - 128)  # ------Normalize to 0 to 128
-T_train = tf.keras.utils.to_categorical(y_train, classes=10)
+T_train = tf.keras.utils.to_categorical(y_train, num_classes=10)
 
 
 def Crossbar_NEF(n_hid):
