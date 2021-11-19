@@ -3,7 +3,7 @@ import time
 import numpy as np
 import multiprocessing  # multiprocessing:
 import matplotlib.pyplot as plt
-from nengo_extras.data import load_mnist, one_hot_from_labels
+import tensorflow as tf
 from nengo_extras.vision import Gabor, Mask
 from nengo_extras.matplotlib import tile
 from nengo.dists import Uniform
@@ -13,10 +13,10 @@ from multiprocessing import Pool
 rng = np.random.RandomState(1)
 # --- load the data of training and testing
 img_rows, img_cols = 28, 28
-(X_train, y_train), (X_test, y_test) = load_mnist()
+(X_train, y_train), (X_test, y_test) = tf.keras.datasets.mnist.load_data()
 X_train = (256 * X_train - 128)  # ------Normalize to 0 to 128
 X_test = (256 * X_test - 128)  # ------Normalize to 0 to 128
-T_train = one_hot_from_labels(y_train, classes=10)
+T_train = tf.keras.utils.to_categorical(y_train, classes=10)
 
 
 def Crossbar_NEF(n_hid):
@@ -132,7 +132,7 @@ if __name__ == '__main__':
     print("testflg")
     print(multiprocessing.cpu_count())
     pool = Pool(multiprocessing.cpu_count())
-    for i in range(0, (N)):
+    for i in range(0, N):
         args.append(i)
     print(args)
     result = pool.map(Crossbar_NEF, args)
