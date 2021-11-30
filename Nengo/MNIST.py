@@ -2,12 +2,12 @@ import nengo
 import time
 import numpy as np
 import multiprocessing  # multiprocessing:
-import matplotlib.pyplot as plt
+#import matplotlib.pyplot as plt
 import tensorflow as tf
-from nengo_extras.vision import Gabor, Mask
-from nengo_extras.matplotlib import tile
-from nengo.dists import Uniform
-import matplotlib.cm as cm
+#from nengo_extras.vision import Gabor, Mask
+#from nengo_extras.matplotlib import tile
+#from nengo.dists import Uniform
+#import matplotlib.cm as cm
 from multiprocessing import Pool
 
 rng = np.random.RandomState(1)
@@ -135,9 +135,8 @@ if __name__ == '__main__':
     for i in range(0, N):
         args.append(i)
     print(args)
-    result = pool.map(Crossbar_NEF, args)
+    result = pool.imap(Crossbar_NEF, args)
     result = np.array(result)
     pool.close()
     pool.join()
     pool.terminate()
-
