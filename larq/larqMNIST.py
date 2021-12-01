@@ -21,19 +21,19 @@ model.add(lq.layers.QuantConv2D(32, (3, 3),
                                 kernel_quantizer="ste_sign",
                                 kernel_constraint="weight_clip",
                                 use_bias=False,
-                                input_shape=(28, 28, 1)))
+                                input_shape=(28, 28, 1), activation="relu"))
 model.add(tf.keras.layers.MaxPooling2D((2, 2)))
 model.add(tf.keras.layers.BatchNormalization(scale=False))
 
-model.add(lq.layers.QuantConv2D(64, (3, 3), use_bias=False, **kwargs))
+model.add(lq.layers.QuantConv2D(64, (3, 3), use_bias=False, activation="relu", **kwargs))
 model.add(tf.keras.layers.MaxPooling2D((2, 2)))
 model.add(tf.keras.layers.BatchNormalization(scale=False))
 
-model.add(lq.layers.QuantConv2D(64, (3, 3), use_bias=False, **kwargs))
+model.add(lq.layers.QuantConv2D(64, (3, 3), use_bias=False, activation="relu", **kwargs))
 model.add(tf.keras.layers.BatchNormalization(scale=False))
 model.add(tf.keras.layers.Flatten())
 
-model.add(lq.layers.QuantDense(16, use_bias=False, **kwargs))
+model.add(lq.layers.QuantDense(16, use_bias=False, activation="relu", **kwargs))
 model.add(tf.keras.layers.BatchNormalization(scale=False))
 model.add(lq.layers.QuantDense(10, use_bias=False, **kwargs))
 model.add(tf.keras.layers.BatchNormalization(scale=False))
@@ -41,13 +41,13 @@ model.add(tf.keras.layers.Activation("softmax"))
 
 lq.models.summary(model)
 
-# model.compile(optimizer='adam',
-#               loss='sparse_categorical_crossentropy',
-#               metrics=['accuracy'])
-#
-# model.fit(train_images, train_labels, batch_size=64, epochs=10)
-#
-# test_loss, test_acc = model.evaluate(test_images, test_labels)
-#
-# print(f"Test accuracy {test_acc * 100:.2f} %")
+model.compile(optimizer='adam',
+              loss='sparse_categorical_crossentropy',
+              metrics=['accuracy'])
+
+model.fit(train_images, train_labels, batch_size=64, epochs=10)
+
+test_loss, test_acc = model.evaluate(test_images, test_labels)
+
+print(f"Test accuracy {test_acc * 100:.2f} %")
 
