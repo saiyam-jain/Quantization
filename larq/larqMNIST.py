@@ -7,7 +7,7 @@ train_images = train_images.reshape((60000, 28, 28, 1))
 test_images = test_images.reshape((10000, 28, 28, 1))
 
 # Normalize pixel values to be between -1 and 1
-train_images, test_images = train_images / 127.5 - 1, test_images / 127.5 - 1
+# train_images, test_images = train_images / 127.5 - 1, test_images / 127.5 - 1
 
 # All quantized layers except the first will use the same options
 kwargs = dict(input_quantizer="ste_sign",
