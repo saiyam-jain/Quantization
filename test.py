@@ -1,12 +1,6 @@
 import matplotlib.pyplot as plt
 import nengo
 import numpy as np
-import scipy.ndimage
-import matplotlib.animation as animation
-from matplotlib import pylab
-from PIL import Image
-import nengo.spa as spa
-import random
 
 from nengo_extras.data import load_mnist
 from nengo_extras.vision import Gabor, Mask
