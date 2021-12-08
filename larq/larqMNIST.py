@@ -17,7 +17,7 @@ kwargs = dict(input_quantizer="ste_sign",
 model = tf.keras.models.Sequential()
 
 # In the first layer we only quantize the weights and not the input
-model.add(lq.layers.QuantConv2D(32, (3, 3),
+model.add(lq.layers.QuantConv2D(16, (3, 3),
                                 kernel_quantizer="ste_sign",
                                 kernel_constraint="weight_clip",
                                 use_bias=False,
@@ -25,7 +25,7 @@ model.add(lq.layers.QuantConv2D(32, (3, 3),
 model.add(tf.keras.layers.MaxPooling2D((2, 2)))
 model.add(tf.keras.layers.BatchNormalization(scale=False))
 
-model.add(lq.layers.QuantConv2D(64, (3, 3), use_bias=False, activation="relu", **kwargs))
+model.add(lq.layers.QuantConv2D(32, (3, 3), use_bias=False, activation="relu", **kwargs))
 model.add(tf.keras.layers.MaxPooling2D((2, 2)))
 model.add(tf.keras.layers.BatchNormalization(scale=False))
 
