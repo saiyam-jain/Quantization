@@ -1,23 +1,17 @@
 import nengo
-import time
 import numpy as np
-import multiprocessing  # multiprocessing:
-#import matplotlib.pyplot as plt
+import matplotlib.pyplot as plt
+from nengo_extras.data import one_hot_from_labels
+import matplotlib.cm as cm
 import tensorflow as tf
-#from nengo_extras.vision import Gabor, Mask
-#from nengo_extras.matplotlib import tile
-#from nengo.dists import Uniform
-#import matplotlib.cm as cm
-from multiprocessing import Pool
 
 rng = np.random.RandomState(1)
 # --- load the data of training and testing
 img_rows, img_cols = 28, 28
 (X_train, y_train), (X_test, y_test) = tf.keras.datasets.mnist.load_data()
-X_train = (256 * X_train - 128)  # ------Normalize to 0 to 128
-X_test = (256 * X_test - 128)  # ------Normalize to 0 to 128
-T_train = tf.keras.utils.to_categorical(y_train, num_classes=10)
-
+X_train = X_train * 0.5  # ------Normalize to 0 to 128
+X_test = X_test * 0.5  # ------Normalize to 0 to 128
+T_train = one_hot_from_labels(y_train, classes=10)
 
 def Crossbar_NEF(n_hid):
     # ------Label numbers are from 0 to 9 (10 numbers in total)
@@ -80,7 +74,7 @@ def Crossbar_NEF(n_hid):
     # plt.title('Encoder weight')
     # ax.imshow(X, cmap=cm.Reds, interpolation='nearest',aspect='auto')
     # numrows, numcols = X.shape
-
+    #
     # def format_coord(x, y):
     #     col = int(x+0.5)
     #     row = int(y+0.5)
@@ -91,52 +85,28 @@ def Crossbar_NEF(n_hid):
     #         return 'x=%1.4f, y=%1.4f'%(x, y)
     # ax.format_coord = format_coord
     # plt.show()
-
+    #
     # with nengo.Simulator(model) as sim:
     #     Y = sim.data[conn].weights.T
-
+    #
     # fig = plt.figure()
     # ax = fig.add_subplot(111)
     # plt.xlabel('10 output neurons')
     # plt.ylabel('1000 neurons in hidden layer')
     # plt.title('Decoder weight')
     # ax.imshow(Y, cmap=plt.cm.Reds, interpolation='nearest',aspect='auto')
-
+    #
     # numrows, numcols = Y.shape
     with nengo.Simulator(model) as sim:
         print_error(sim)
     return print_error(sim)
 
 
-# def format_coord(x, y):
-#     col = int(x+0.5)
-#     row = int(y+0.5)
-#     if col>=0 and col<numcols and row>=0 and row<numrows:
-#         z = Y[row,col]
-#         return 'x=%1.4f, y=%1.4f, z=%1.4f'%(x, y, z)
-#     else:
-#         return 'x=%1.4f, y=%1.4f'%(x, y)
+n = 2
+N = np.zeros(n)
 
-# ax.format_coord = format_coord
-# plt.show()
+for i in range(1, n):
+    N[i] = Crossbar_NEF(i)
 
-
-# start = time.time()
-# results = [Crossbar_NEF.remote(x) for x in range(100)]
-# print("duration =", time.time() - start, "\nresults = ", results)
-
-N = 100
-args = []
-result = np.zeros(N)
-if __name__ == '__main__':
-    print("testflg")
-    print(multiprocessing.cpu_count())
-    pool = Pool(multiprocessing.cpu_count())
-    for i in range(0, N):
-        args.append(i)
-    print(args)
-    result = pool.imap(Crossbar_NEF, args)
-    result = np.array(result)
-    pool.close()
-    pool.join()
-    pool.terminate()
+plt.plot(N)
+plt.show()
