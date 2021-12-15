@@ -32,9 +32,9 @@ model.add(lq.layers.QuantConv2D(64, (3, 3), **kwargs))
 model.add(tf.keras.layers.BatchNormalization(scale=False))
 model.add(tf.keras.layers.Flatten())
 
-model.add(lq.layers.QuantDense(16, **kwargs))
+model.add(lq.layers.QuantDense(32, **kwargs))
 model.add(tf.keras.layers.BatchNormalization(scale=False))
-model.add(lq.layers.QuantDense(10, **kwargs))
+model.add(lq.layers.QuantDense(10, kernel_quantizer="SteHeaviside", kernel_constraint="weight_clip"))
 model.add(tf.keras.layers.BatchNormalization(scale=False))
 model.add(tf.keras.layers.Activation("softmax"))
 
