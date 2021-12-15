@@ -10,15 +10,15 @@ test_images = test_images.reshape((10000, 28, 28, 1))
 # train_images, test_images = train_images / 127.5 - 1, test_images / 127.5 - 1
 
 # All quantized layers except the first will use the same options
-kwargs = dict(input_quantizer="ste_sign",
-              kernel_quantizer="ste_sign",
+kwargs = dict(input_quantizer="SteHeaviside",
+              kernel_quantizer="SteHeaviside",
               kernel_constraint="weight_clip")
 
 model = tf.keras.models.Sequential()
 
 # In the first layer we only quantize the weights and not the input
 model.add(lq.layers.QuantConv2D(16, (3, 3),
-                                kernel_quantizer="ste_sign",
+                                kernel_quantizer="SteHeaviside",
                                 kernel_constraint="weight_clip",
                                 input_shape=(28, 28, 1)))
 model.add(tf.keras.layers.MaxPooling2D((2, 2)))
@@ -46,9 +46,21 @@ model.compile(optimizer='adam',
 
 model.fit(train_images, train_labels, batch_size=64, epochs=10)
 
-print(model.layers[0].weights)
-print(model.layers[0].bias.numpy())
-print(model.layers[0].bias_initializer)
+#print(model.layers[1].weights)
+#print(model.layers[1].bias.numpy())
+#print(model.layers[1].bias_initializer)
+#print(model.trainable_variables)
+
+model.save("full_precision_model.h5")
+
+fp_weights = model.get_weights()
+
+with lq.context.quantized_scope(True):
+    model.save("binary_model.h5")
+    weights = model.get_weights()
+
+print(fp_weights)
+print(weights)
 
 test_loss, test_acc = model.evaluate(test_images, test_labels)
 
