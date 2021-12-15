@@ -10,8 +10,8 @@ test_images = test_images.reshape((10000, 28, 28, 1))
 # train_images, test_images = train_images / 127.5 - 1, test_images / 127.5 - 1
 
 # All quantized layers except the first will use the same options
-kwargs = dict(input_quantizer="ste_sign",
-              kernel_quantizer="ste_sign",
+kwargs = dict(input_quantizer="SteHeaviside",
+              kernel_quantizer="SteHeaviside",
               kernel_constraint="weight_clip")
 
 model = tf.keras.models.Sequential()
@@ -45,6 +45,10 @@ model.compile(optimizer='adam',
               metrics=['accuracy'])
 
 model.fit(train_images, train_labels, batch_size=64, epochs=10)
+
+print(model.layers[0].weights)
+print(model.layers[0].bias.numpy())
+print(model.layers[0].bias_initializer)
 
 test_loss, test_acc = model.evaluate(test_images, test_labels)
 
