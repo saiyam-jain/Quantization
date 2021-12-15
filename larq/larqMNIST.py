@@ -10,8 +10,8 @@ test_images = test_images.reshape((10000, 28, 28, 1))
 # train_images, test_images = train_images / 127.5 - 1, test_images / 127.5 - 1
 
 # All quantized layers except the first will use the same options
-kwargs = dict(input_quantizer="SteHeaviside",
-              kernel_quantizer="SteHeaviside",
+kwargs = dict(input_quantizer="ste_sign",
+              kernel_quantizer="ste_sign",
               kernel_constraint="weight_clip")
 
 model = tf.keras.models.Sequential()
