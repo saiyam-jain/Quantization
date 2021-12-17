@@ -17,14 +17,14 @@ kwargs = dict(input_quantizer="SteHeaviside",
 model = tf.keras.models.Sequential()
 
 # In the first layer we only quantize the weights and not the input
-model.add(lq.layers.QuantConv2D(16, (3, 3),
+model.add(lq.layers.QuantConv2D(32, (3, 3),
                                 kernel_quantizer="SteHeaviside",
                                 kernel_constraint="weight_clip",
                                 input_shape=(28, 28, 1)))
 model.add(tf.keras.layers.MaxPooling2D((2, 2)))
 model.add(tf.keras.layers.BatchNormalization(scale=False))
 
-model.add(lq.layers.QuantConv2D(32, (3, 3), **kwargs))
+model.add(lq.layers.QuantConv2D(64, (3, 3), **kwargs))
 model.add(tf.keras.layers.MaxPooling2D((2, 2)))
 model.add(tf.keras.layers.BatchNormalization(scale=False))
 
@@ -32,7 +32,7 @@ model.add(lq.layers.QuantConv2D(64, (3, 3), **kwargs))
 model.add(tf.keras.layers.BatchNormalization(scale=False))
 model.add(tf.keras.layers.Flatten())
 
-model.add(lq.layers.QuantDense(32, **kwargs))
+model.add(lq.layers.QuantDense(64, **kwargs))
 model.add(tf.keras.layers.BatchNormalization(scale=False))
 model.add(lq.layers.QuantDense(10, kernel_quantizer="SteHeaviside", kernel_constraint="weight_clip"))
 model.add(tf.keras.layers.BatchNormalization(scale=False))
@@ -44,23 +44,23 @@ model.compile(optimizer='adam',
               loss='sparse_categorical_crossentropy',
               metrics=['accuracy'])
 
-model.fit(train_images, train_labels, batch_size=64, epochs=10)
+model.fit(train_images, train_labels, batch_size=64, epochs=30)
 
 #print(model.layers[1].weights)
 #print(model.layers[1].bias.numpy())
 #print(model.layers[1].bias_initializer)
 #print(model.trainable_variables)
 
-model.save("full_precision_model.h5")
-
-fp_weights = model.get_weights()
-
-with lq.context.quantized_scope(True):
-    model.save("binary_model.h5")
-    weights = model.get_weights()
-
-print(fp_weights)
-print(weights)
+# model.save("full_precision_model.h5")
+#
+# fp_weights = model.get_weights()
+#
+# with lq.context.quantized_scope(True):
+#     model.save("binary_model.h5")
+#     weights = model.get_weights()
+#
+# print(fp_weights)
+# print(weights)
 
 test_loss, test_acc = model.evaluate(test_images, test_labels)
 
