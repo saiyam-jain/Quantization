@@ -72,7 +72,7 @@ with lq.context.quantized_scope(True):
     weights = model.get_weights()
 #
 # print(fp_weights)
-# print(weights)
+print(weights)
 
 test_loss, test_acc = model.evaluate(test_images, test_labels)
 
@@ -83,6 +83,9 @@ weights[5] = error_injection(weights[5], 3*3*32*64, weights[5].shape)
 weights[10] = error_injection(weights[10], 3*3*64*64, weights[10].shape)
 
 model.set_weights(weights)
+weights = model.get_weights()
+print(weights)
+
 
 test_loss, test_acc = model.evaluate(test_images, test_labels)
 
