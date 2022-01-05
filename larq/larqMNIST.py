@@ -1,5 +1,6 @@
 import tensorflow as tf
 import larq as lq
+import numpy as np
 
 (train_images, train_labels), (test_images, test_labels) = tf.keras.datasets.mnist.load_data()
 
@@ -46,23 +47,49 @@ model.compile(optimizer='adam',
 
 model.fit(train_images, train_labels, batch_size=64, epochs=20)
 
+
+def error_injection(weight, n_weights, s, p=2):
+    w_conv = weight
+    w_conv = np.reshape(w_conv, newshape=[n_weights, 1])
+    rng = np.random.default_rng()
+    indices = rng.choice(a=n_weights, size=int(p * n_weights / 100), replace=False)
+    for i in indices:
+        print(w_conv[i])
+        print(np.where(w_conv[i] > 0, -1, 1))
+        w_conv[i] = np.where(w_conv[i] > 0, -1, 1)
+    w_conv = np.reshape(w_conv, newshape=s)
+    return w_conv
+
 #print(model.layers[1].weights)
 #print(model.layers[1].bias.numpy())
 #print(model.layers[1].bias_initializer)
 #print(model.trainable_variables)
 
-# model.save("full_precision_model.h5")
-#
-# fp_weights = model.get_weights()
-#
-# with lq.context.quantized_scope(True):
-#     model.save("binary_model.h5")
-#     weights = model.get_weights()
+model.save("full_precision_model.h5")
+
+fp_weights = model.get_weights()
+
+with lq.context.quantized_scope(True):
+    model.save("binary_model.h5")
+    weights = model.get_weights()
 #
 # print(fp_weights)
 # print(weights)
 
 test_loss, test_acc = model.evaluate(test_images, test_labels)
 
-print(f"Test accuracy {test_acc * 100:.2f} %")
+print(f"Test accuracy before error injection {test_acc * 100:.2f} %")
 
+weights = model.layers[3].get_weights()[0].numpy()
+shape = model.layers[3].weights[0].numpy().shape
+bias = model.layers[3].get_weights()[1].numpy()
+model.layers[3].set_weights([error_injection(weights, 3*3*32*64, shape), bias])
+
+weights = model.layers[6].get_weights()[0].numpy()
+shape = model.layers[6].weights[0].numpy().shape
+bias = model.layers[6].get_weights()[1].numpy()
+model.layers[6].set_weights([error_injection(weights, 3*3*64*64, shape), bias])
+
+test_loss, test_acc = model.evaluate(test_images, test_labels)
+
+print(f"Test accuracy after error injection {test_acc * 100:.2f} %")
