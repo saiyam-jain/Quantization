@@ -45,7 +45,7 @@ model.compile(optimizer='adam',
               loss='sparse_categorical_crossentropy',
               metrics=['accuracy'])
 
-model.fit(train_images, train_labels, batch_size=64, epochs=2)
+model.fit(train_images, train_labels, batch_size=64, epochs=20)
 
 
 def error_injection(weight, n_weights, s, p=2):
@@ -79,15 +79,12 @@ test_loss, test_acc = model.evaluate(test_images, test_labels)
 print(f"Test accuracy before error injection {test_acc * 100:.2f} %")
 
 weights[5] = error_injection(weights[5], 3*3*32*64, weights[5].shape)
-
 weights[10] = error_injection(weights[10], 3*3*64*64, weights[10].shape)
-
 weights[15] = error_injection(weights[15], 576*64, weights[15].shape)
-
 weights[20] = error_injection(weights[20], 64*10, weights[20].shape)
 
 model.set_weights(weights)
 
 test_loss, test_acc = model.evaluate(test_images, test_labels)
 
-print(f"Test accuracy after error injection {test_acc * 100:.2f} %")
+print(f"Test accuracy after 2% error injection {test_acc * 100:.2f} %")
