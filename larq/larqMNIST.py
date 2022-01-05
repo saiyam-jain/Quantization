@@ -54,8 +54,6 @@ def error_injection(weight, n_weights, s, p=2):
     rng = np.random.default_rng()
     indices = rng.choice(a=n_weights, size=int(p * n_weights / 100), replace=False)
     for i in indices:
-        print(w_conv[i])
-        print(np.where(w_conv[i] > 0, -1, 1))
         w_conv[i] = np.where(w_conv[i] > 0, -1, 1)
     w_conv = np.reshape(w_conv, newshape=s)
     return w_conv
@@ -73,22 +71,18 @@ with lq.context.quantized_scope(True):
     model.save("binary_model.h5")
     weights = model.get_weights()
 #
-print(fp_weights)
-print(weights)
+# print(fp_weights)
+# print(weights)
 
 test_loss, test_acc = model.evaluate(test_images, test_labels)
 
 print(f"Test accuracy before error injection {test_acc * 100:.2f} %")
 
-# w = model.layers[3].weights[0].numpy()
-# shape = model.layers[3].weights[0].numpy().shape
-# b = model.layers[3].weights[1].numpy()
-# model.layers[3].set_weights([error_injection(w, 3*3*32*64, shape), b])
-#
-# w = model.layers[6].weights[0].numpy()
-# shape = model.layers[6].weights[0].numpy().shape
-# b = model.layers[6].weights[1].numpy()
-# model.layers[6].set_weights([error_injection(w, 3*3*64*64, shape), b])
+weights[5] = error_injection(weights[5], 3*3*32*64, weights[5].shape)
+
+weights[10] = error_injection(weights[10], 3*3*64*64, weights[10].shape)
+
+model.set_weights(weights)
 
 test_loss, test_acc = model.evaluate(test_images, test_labels)
 
