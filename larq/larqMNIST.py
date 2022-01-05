@@ -45,7 +45,7 @@ model.compile(optimizer='adam',
               loss='sparse_categorical_crossentropy',
               metrics=['accuracy'])
 
-model.fit(train_images, train_labels, batch_size=64, epochs=20)
+model.fit(train_images, train_labels, batch_size=64, epochs=2)
 
 
 def error_injection(weight, n_weights, s, p=2):
@@ -80,15 +80,15 @@ test_loss, test_acc = model.evaluate(test_images, test_labels)
 
 print(f"Test accuracy before error injection {test_acc * 100:.2f} %")
 
-weights = model.layers[3].weights()[0].numpy()
+w = model.layers[3].weights[0].numpy()
 shape = model.layers[3].weights[0].numpy().shape
-bias = model.layers[3].weights()[1].numpy()
-model.layers[3].set_weights([error_injection(weights, 3*3*32*64, shape), bias])
+b = model.layers[3].weights[1].numpy()
+model.layers[3].set_weights([error_injection(w, 3*3*32*64, shape), b])
 
-weights = model.layers[6].weights()[0].numpy()
+w = model.layers[6].weights[0].numpy()
 shape = model.layers[6].weights[0].numpy().shape
-bias = model.layers[6].weights()[1].numpy()
-model.layers[6].set_weights([error_injection(weights, 3*3*64*64, shape), bias])
+b = model.layers[6].weights[1].numpy()
+model.layers[6].set_weights([error_injection(w, 3*3*64*64, shape), b])
 
 test_loss, test_acc = model.evaluate(test_images, test_labels)
 
