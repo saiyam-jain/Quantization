@@ -80,14 +80,14 @@ test_loss, test_acc = model.evaluate(test_images, test_labels)
 
 print(f"Test accuracy before error injection {test_acc * 100:.2f} %")
 
-weights = model.layers[3].get_weights()[0].numpy()
+weights = model.layers[3].weights()[0].numpy()
 shape = model.layers[3].weights[0].numpy().shape
-bias = model.layers[3].get_weights()[1].numpy()
+bias = model.layers[3].weights()[1].numpy()
 model.layers[3].set_weights([error_injection(weights, 3*3*32*64, shape), bias])
 
-weights = model.layers[6].get_weights()[0].numpy()
+weights = model.layers[6].weights()[0].numpy()
 shape = model.layers[6].weights[0].numpy().shape
-bias = model.layers[6].get_weights()[1].numpy()
+bias = model.layers[6].weights()[1].numpy()
 model.layers[6].set_weights([error_injection(weights, 3*3*64*64, shape), bias])
 
 test_loss, test_acc = model.evaluate(test_images, test_labels)
