@@ -73,22 +73,22 @@ with lq.context.quantized_scope(True):
     model.save("binary_model.h5")
     weights = model.get_weights()
 #
-# print(fp_weights)
-# print(weights)
+print(fp_weights)
+print(weights)
 
 test_loss, test_acc = model.evaluate(test_images, test_labels)
 
 print(f"Test accuracy before error injection {test_acc * 100:.2f} %")
 
-w = model.layers[3].weights[0].numpy()
-shape = model.layers[3].weights[0].numpy().shape
-b = model.layers[3].weights[1].numpy()
-model.layers[3].set_weights([error_injection(w, 3*3*32*64, shape), b])
-
-w = model.layers[6].weights[0].numpy()
-shape = model.layers[6].weights[0].numpy().shape
-b = model.layers[6].weights[1].numpy()
-model.layers[6].set_weights([error_injection(w, 3*3*64*64, shape), b])
+# w = model.layers[3].weights[0].numpy()
+# shape = model.layers[3].weights[0].numpy().shape
+# b = model.layers[3].weights[1].numpy()
+# model.layers[3].set_weights([error_injection(w, 3*3*32*64, shape), b])
+#
+# w = model.layers[6].weights[0].numpy()
+# shape = model.layers[6].weights[0].numpy().shape
+# b = model.layers[6].weights[1].numpy()
+# model.layers[6].set_weights([error_injection(w, 3*3*64*64, shape), b])
 
 test_loss, test_acc = model.evaluate(test_images, test_labels)
 
