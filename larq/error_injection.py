@@ -1,5 +1,6 @@
 import tensorflow as tf
 import numpy as np
+import larq as lq
 
 model = tf.keras.models.load_model('binary_model.h5')
 
