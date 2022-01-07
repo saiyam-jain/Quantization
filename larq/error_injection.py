@@ -20,6 +20,10 @@ def error_injection(weight, n_weights, s, p=2):
     return w_conv
 
 
+test_loss, test_acc = model.evaluate(test_images, test_labels)
+
+print(f"Test accuracy before error injection {test_acc * 100:.2f} %")
+
 weights = model.get_weights()
 
 weights[0] = error_injection(weights[0], 3*3*32, weights[0].shape)
