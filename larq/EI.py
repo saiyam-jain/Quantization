@@ -20,6 +20,7 @@ def error_injection(layer_name, percent):
     n_test = test_images.shape[0]
     test_images = test_images.reshape((n_test, 32, 32, 3))
     # test_images = test_images.reshape((10000, 28, 28, 1))
+    test_labels = tf.keras.utils.to_categorical(test_labels, 10)
 
     layer = model.get_layer(name=layer_name)
 
