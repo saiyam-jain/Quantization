@@ -24,11 +24,11 @@ def error_injection(layer_name, percent):
     layer = model.get_layer(name=layer_name)
 
     weights = layer.get_weights()[0]
-    bias = layer.get_weights()[1]
+    # bias = layer.get_weights()[1]
 
     new_weights = flip_weights(weights, weights.size, weights.shape, p=percent)
 
-    layer.set_weights([new_weights, bias])
+    layer.set_weights([new_weights])
 
     _, test_acc = model.evaluate(test_images, test_labels)
 
