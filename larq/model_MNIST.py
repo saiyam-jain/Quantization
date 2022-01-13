@@ -60,6 +60,7 @@ train_accuracy = tf.keras.metrics.SparseCategoricalAccuracy(name='train_accuracy
 test_loss = tf.keras.metrics.Mean(name='test_loss')
 test_accuracy = tf.keras.metrics.SparseCategoricalAccuracy(name='test_accuracy')
 
+model.compile(optimizer, loss_object)
 
 @tf.function
 def train_step(images, labels):
