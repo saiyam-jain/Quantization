@@ -1,16 +1,16 @@
 import tensorflow as tf
 import larq as lq
-import wandb
-
-wandb.init(project="larq", entity="saiyam-jain")
-
+# import wandb
+#
+# wandb.init(project="larq", entity="saiyam-jain")
+#
 batch_size = 64
 EPOCHS = 20
-
-wandb.config = {
-    "epochs": EPOCHS,
-    "batch_size": batch_size
-}
+#
+# wandb.config = {
+#     "epochs": EPOCHS,
+#     "batch_size": batch_size
+# }
 
 (train_images, train_labels), (test_images, test_labels) = tf.keras.datasets.mnist.load_data()
 n_train = train_images.shape[0]
@@ -32,21 +32,21 @@ model = tf.keras.models.Sequential()
 model.add(lq.layers.QuantConv2D(32, (3, 3),
                                 kernel_quantizer="ste_sign",
                                 kernel_constraint="weight_clip",
-                                input_shape=(28, 28, 1)))
+                                input_shape=(28, 28, 1), name='first_conv'))
 model.add(tf.keras.layers.MaxPooling2D((2, 2)))
 model.add(tf.keras.layers.BatchNormalization(scale=False))
 
-model.add(lq.layers.QuantConv2D(64, (3, 3), **kwargs))
+model.add(lq.layers.QuantConv2D(64, (3, 3), name='second_conv', **kwargs))
 model.add(tf.keras.layers.MaxPooling2D((2, 2)))
 model.add(tf.keras.layers.BatchNormalization(scale=False))
 
-model.add(lq.layers.QuantConv2D(64, (3, 3), **kwargs))
+model.add(lq.layers.QuantConv2D(64, (3, 3), name='third_conv', **kwargs))
 model.add(tf.keras.layers.BatchNormalization(scale=False))
 model.add(tf.keras.layers.Flatten())
 
-model.add(lq.layers.QuantDense(64, **kwargs))
+model.add(lq.layers.QuantDense(64, name='first_dense', **kwargs))
 model.add(tf.keras.layers.BatchNormalization(scale=False))
-model.add(lq.layers.QuantDense(10, **kwargs))
+model.add(lq.layers.QuantDense(10, name='second_dense', **kwargs))
 model.add(tf.keras.layers.BatchNormalization(scale=False))
 model.add(tf.keras.layers.Activation("softmax"))
 
@@ -101,10 +101,19 @@ for epoch in range(EPOCHS):
         f'Test Accuracy: {test_accuracy.result() * 100}'
     )
 
-    wandb.log({
-        "Epoch": epoch + 1,
-        "Train Loss": train_loss.result().numpy(),
-        "Train Accuracy": train_accuracy.result().numpy(),
-        "Test Loss": test_loss.result().numpy(),
-        "Test Accuracy": test_accuracy.result().numpy()
-    })
+    # wandb.log({
+    #     "Epoch": epoch + 1,
+    #     "Train Loss": train_loss.result().numpy(),
+    #     "Train Accuracy": train_accuracy.result().numpy(),
+    #     "Test Loss": test_loss.result().numpy(),
+    #     "Test Accuracy": test_accuracy.result().numpy()
+    # })
+
+
+model.save("full_precision_model_MNIST.h5")
+
+fp_weights = model.get_weights()
+
+with lq.context.quantized_scope(True):
+    model.save("binary_model_MNIST.h5")
+    weights = model.get_weights()
