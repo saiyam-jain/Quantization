@@ -1,16 +1,16 @@
 import tensorflow as tf
 import larq as lq
-# import wandb
-#
-# wandb.init(project="larq", entity="saiyam-jain")
-#
+import wandb
+
+wandb.init(project="larq", entity="saiyam-jain", group="MNIST", job_type="train")
+
 batch_size = 64
-EPOCHS = 2
-#
-# wandb.config = {
-#     "epochs": EPOCHS,
-#     "batch_size": batch_size
-# }
+EPOCHS = 3
+
+wandb.config = {
+    "epochs": EPOCHS,
+    "batch_size": batch_size
+}
 
 (train_images, train_labels), (test_images, test_labels) = tf.keras.datasets.mnist.load_data()
 n_train = train_images.shape[0]
@@ -102,13 +102,13 @@ for epoch in range(EPOCHS):
         f'Test Accuracy: {test_accuracy.result() * 100}'
     )
 
-    # wandb.log({
-    #     "Epoch": epoch + 1,
-    #     "Train Loss": train_loss.result().numpy(),
-    #     "Train Accuracy": train_accuracy.result().numpy(),
-    #     "Test Loss": test_loss.result().numpy(),
-    #     "Test Accuracy": test_accuracy.result().numpy()
-    # })
+    wandb.log({
+        "Epoch": epoch + 1,
+        "Train Loss": train_loss.result().numpy(),
+        "Train Accuracy": train_accuracy.result().numpy(),
+        "Test Loss": test_loss.result().numpy(),
+        "Test Accuracy": test_accuracy.result().numpy()
+    })
 
 
 model.save("full_precision_model_MNIST.h5")
