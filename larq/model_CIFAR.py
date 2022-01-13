@@ -1,19 +1,19 @@
 import tensorflow as tf
 import larq as lq
-# import wandb
-#
-# wandb.init(project="larq", entity="saiyam-jain", group="CIFAR", job_type="train")
+import wandb
+
+wandb.init(project="larq", entity="saiyam-jain", group="CIFAR", job_type="train")
 
 batch_size = 64
-EPOCHS = 3
+EPOCHS = 100
 lr = 0.01
 decay = 0.0001
 
-# wandb.config = {
-#     "epochs": EPOCHS,
-#     "batch_size": batch_size,
-#     "lr": lr
-# }
+wandb.config = {
+    "epochs": EPOCHS,
+    "batch_size": batch_size,
+    "lr": lr
+}
 
 (train_images, train_labels), (test_images, test_labels) = tf.keras.datasets.cifar10.load_data()
 n_train = train_images.shape[0]
@@ -127,13 +127,13 @@ for epoch in range(EPOCHS):
         f'Test Accuracy: {test_accuracy.result() * 100}'
     )
 
-    # wandb.log({
-    #     "Epoch": epoch + 1,
-    #     "Train Loss": train_loss.result().numpy(),
-    #     "Train Accuracy": train_accuracy.result().numpy(),
-    #     "Test Loss": test_loss.result().numpy(),
-    #     "Test Accuracy": test_accuracy.result().numpy()
-    # })
+    wandb.log({
+        "Epoch": epoch + 1,
+        "Train Loss": train_loss.result().numpy(),
+        "Train Accuracy": train_accuracy.result().numpy(),
+        "Test Loss": test_loss.result().numpy(),
+        "Test Accuracy": test_accuracy.result().numpy()
+    })
 
 
 model.save("full_precision_model_CIFAR.h5")

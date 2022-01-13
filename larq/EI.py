@@ -14,10 +14,12 @@ def flip_weights(weight, n_weights, s, p):
     return w_conv
 
 
-def error_injection(layer_name='first_conv', percent=20):
-    model = tf.keras.models.load_model('binary_model_MNIST.h5')
-    (_, _), (test_images, test_labels) = tf.keras.datasets.mnist.load_data()
-    test_images = test_images.reshape((10000, 28, 28, 1))
+def error_injection(layer_name, percent):
+    model = tf.keras.models.load_model('binary_model_CIFAR.h5')
+    (_, _), (test_images, test_labels) = tf.keras.datasets.cifar10.load_data()
+    n_test = test_images.shape[0]
+    test_images = test_images.reshape((n_test, 32, 32, 3))
+    # test_images = test_images.reshape((10000, 28, 28, 1))
 
     layer = model.get_layer(name=layer_name)
 
