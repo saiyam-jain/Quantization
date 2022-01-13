@@ -14,7 +14,7 @@ def flip_weights(weight, n_weights, s, p):
     return w_conv
 
 
-def main(layer_name='first_conv', percent=20):
+def error_injection(layer_name='first_conv', percent=20):
     model = tf.keras.models.load_model('binary_model_MNIST.h5')
     (_, _), (test_images, test_labels) = tf.keras.datasets.mnist.load_data()
     test_images = test_images.reshape((10000, 28, 28, 1))
@@ -43,8 +43,5 @@ def main(layer_name='first_conv', percent=20):
     _, test_acc = model.evaluate(test_images, test_labels)
 
     print(f"Test accuracy after 2% error injection {test_acc * 100:.2f} %")
-
-
-if __name__ == '__main__':
-    main()
+    return test_acc
 

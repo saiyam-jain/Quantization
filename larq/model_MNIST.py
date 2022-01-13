@@ -5,7 +5,7 @@ import larq as lq
 # wandb.init(project="larq", entity="saiyam-jain")
 #
 batch_size = 64
-EPOCHS = 20
+EPOCHS = 2
 #
 # wandb.config = {
 #     "epochs": EPOCHS,
