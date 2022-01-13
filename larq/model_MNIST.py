@@ -60,7 +60,7 @@ train_accuracy = tf.keras.metrics.SparseCategoricalAccuracy(name='train_accuracy
 test_loss = tf.keras.metrics.Mean(name='test_loss')
 test_accuracy = tf.keras.metrics.SparseCategoricalAccuracy(name='test_accuracy')
 
-model.compile(optimizer, loss_object)
+model.compile(optimizer, loss_object, train_accuracy)
 
 @tf.function
 def train_step(images, labels):
@@ -118,3 +118,7 @@ fp_weights = model.get_weights()
 with lq.context.quantized_scope(True):
     model.save("binary_model_MNIST.h5")
     weights = model.get_weights()
+
+
+test_loss, test_acc = model.evaluate(test_images, test_labels)
+print(f"Test accuracy before error injection {test_acc * 100:.2f} %")
