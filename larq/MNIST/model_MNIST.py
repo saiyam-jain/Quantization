@@ -24,7 +24,8 @@ test_ds = tf.data.Dataset.from_tensor_slices((test_images, test_labels)).batch(b
 
 kwargs = dict(input_quantizer="ste_sign",
               kernel_quantizer="ste_sign",
-              kernel_constraint="weight_clip")
+              kernel_constraint="weight_clip",
+              use_bias=False)
 
 model = tf.keras.models.Sequential()
 
