@@ -7,7 +7,7 @@ import wandb
 wandb.init(project="larq", entity="saiyam-jain", group="MNIST_1", job_type="error_injection")
 
 runs = 100
-layers = ['first_conv', 'second_conv', 'third_conv', 'first_dense', 'second_dense', ]
+layers = ['first_conv', 'second_conv', 'third_conv', 'first_dense', 'second_dense']
 
 for layer in layers:
     for p in [2, 5, 10, 15, 20]:
