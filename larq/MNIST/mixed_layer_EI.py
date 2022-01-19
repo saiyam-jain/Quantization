@@ -17,7 +17,7 @@ def flip_weights(weight, n_weights, s, p):
     return w_conv
 
 
-def error_injection():
+def error_injection(percent):
     model = tf.keras.models.load_model('binary_model_MNIST.h5')
     (_, _), (test_images, test_labels) = tf.keras.datasets.mnist.load_data()
     n_test = test_images.shape[0]
@@ -31,7 +31,7 @@ def error_injection():
         layer = model.get_layer(name=layer)
         weights = layer.get_weights()[0]
         # bias = layer.get_weights()[1]
-        new_weights = flip_weights(weights, weights.size, weights.shape, p=2)
+        new_weights = flip_weights(weights, weights.size, weights.shape, p=percent)
         layer.set_weights([new_weights])
 
     _, test_accc = model.evaluate(test_images, test_labels)
@@ -41,12 +41,14 @@ def error_injection():
 
 
 runs = 100
-accuracies = []
 
-for run in range(runs):
-    test_acc = error_injection()
-    accuracies.append(test_acc)
-    wandb.log({'Test acc': test_acc})
 
-average = sum(accuracies)/len(accuracies)
-print(f"Average test accuracy after 2% error injection on all layers {test_acc * 100:.2f} %")
+for p in [2, 3, 5, 10, 15, 20]:
+    accuracies = []
+    for run in range(runs):
+        test_acc = error_injection(p)
+        accuracies.append(test_acc)
+        wandb.log({'Test acc': test_acc})
+    average = sum(accuracies)/len(accuracies)
+    print(f"Average test accuracy on {runs} runs of {p}% error injection on all layers is: {average * 100:.2f} %")
+    wandb.log({'Avg test acc': average})
