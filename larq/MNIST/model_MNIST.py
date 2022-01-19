@@ -2,10 +2,10 @@ import tensorflow as tf
 import larq as lq
 import wandb
 
-wandb.init(project="larq", entity="saiyam-jain", group="MNIST", job_type="train")
+wandb.init(project="larq", entity="saiyam-jain", group="MNIST_1", job_type="train")
 
 batch_size = 64
-EPOCHS = 3
+EPOCHS = 30
 
 wandb.config = {
     "epochs": EPOCHS,
