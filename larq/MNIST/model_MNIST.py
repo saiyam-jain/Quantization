@@ -33,7 +33,7 @@ model = tf.keras.models.Sequential()
 model.add(lq.layers.QuantConv2D(32, (3, 3),
                                 kernel_quantizer="ste_sign",
                                 kernel_constraint="weight_clip",
-                                input_shape=(28, 28, 1), name='first_conv'))
+                                input_shape=(28, 28, 1), use_bias=False, name='first_conv'))
 model.add(tf.keras.layers.MaxPooling2D((2, 2)))
 model.add(tf.keras.layers.BatchNormalization(scale=False))
 
