@@ -16,7 +16,7 @@ def flip_weights(weight, n_weights, s, p):
 
 def error_injection(layer_name, percent):
     model = tf.keras.models.load_model('binary_model_MNIST.h5')
-    (_, _), (test_images, test_labels) = tf.keras.datasets.cifar10.load_data()
+    (_, _), (test_images, test_labels) = tf.keras.datasets.mnist.load_data()
     n_test = test_images.shape[0]
     test_images = test_images.reshape((n_test, 32, 32, 3))
     # test_images = test_images.reshape((10000, 28, 28, 1))
