@@ -5,7 +5,7 @@ import wandb
 wandb.init(project="larq", entity="saiyam-jain", group="CIFAR", job_type="train")
 
 batch_size = 64
-EPOCHS = 100
+EPOCHS = 300
 lr = 0.01
 decay = 0.0001
 
