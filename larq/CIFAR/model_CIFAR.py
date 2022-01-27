@@ -78,7 +78,7 @@ model.add(tf.keras.layers.Activation("softmax"))
 lq.models.summary(model)
 
 loss_object = tf.keras.losses.CategoricalCrossentropy()
-optimizer = tf.keras.optimizers.Adam(learning_rate=lr, decay=decay)
+optimizer = tf.keras.optimizers.Adam(learning_rate=lr)
 
 train_loss = tf.keras.metrics.Mean(name='train_loss')
 train_accuracy = tf.keras.metrics.CategoricalAccuracy(name='train_accuracy')
