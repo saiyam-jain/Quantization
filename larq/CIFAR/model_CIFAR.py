@@ -29,8 +29,8 @@ test_images = test_images.reshape((n_test, 32, 32, 3)).astype("float32")
 train_ds = tf.data.Dataset.from_tensor_slices((train_images, train_labels)).shuffle(n_train).batch(batch_size)
 test_ds = tf.data.Dataset.from_tensor_slices((test_images, test_labels)).batch(batch_size)
 
-kwargs = dict(input_quantizer="SteHeaviside",
-              kernel_quantizer="SteHeaviside",
+kwargs = dict(input_quantizer=lq.quantizers.SteHeaviside(),
+              kernel_quantizer=lq.quantizers.SteHeaviside(),
               kernel_constraint="weight_clip",
               use_bias=False)
 
@@ -38,7 +38,7 @@ model = tf.keras.models.Sequential()
 
 # In the first layer we only quantize the weights and not the input
 model.add(lq.layers.QuantConv2D(128, 3,
-                                kernel_quantizer="SteHeaviside",
+                                kernel_quantizer=lq.quantizers.SteHeaviside(),
                                 kernel_constraint="weight_clip",
                                 use_bias=False,
                                 input_shape=(32, 32, 3), name='first_conv'))
