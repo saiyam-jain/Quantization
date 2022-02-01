@@ -44,7 +44,7 @@ def error_injection(layer_name, percent, print_p):
     weights = layer.get_weights()[0]
     # bias = layer.get_weights()[1]
 
-    new_weights = flip_weights(weights, weights.size, weights.shape, p=percent, digit=0, print_p=print_p)
+    new_weights = flip_weights(weights, weights.size, weights.shape, p=percent, digit=1, print_p=print_p)
 
     layer.set_weights([new_weights])
 
