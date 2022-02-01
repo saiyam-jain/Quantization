@@ -5,7 +5,7 @@ import wandb
 wandb.init(project="larq", entity="saiyam-jain", group="CIFAR", job_type="train")
 
 batch_size = 64
-EPOCHS = 300
+EPOCHS = 150
 lr = 0.01
 decay = 0.0001
 
@@ -29,8 +29,8 @@ test_images = test_images.reshape((n_test, 32, 32, 3)).astype("float32")
 train_ds = tf.data.Dataset.from_tensor_slices((train_images, train_labels)).shuffle(n_train).batch(batch_size)
 test_ds = tf.data.Dataset.from_tensor_slices((test_images, test_labels)).batch(batch_size)
 
-kwargs = dict(input_quantizer=lq.quantizers.SteHeaviside(),
-              kernel_quantizer=lq.quantizers.SteHeaviside(),
+kwargs = dict(input_quantizer="ste_sign",
+              kernel_quantizer="ste_sign",
               kernel_constraint="weight_clip",
               use_bias=False)
 
@@ -38,7 +38,7 @@ model = tf.keras.models.Sequential()
 
 # In the first layer we only quantize the weights and not the input
 model.add(lq.layers.QuantConv2D(128, 3,
-                                kernel_quantizer=lq.quantizers.SteHeaviside(),
+                                kernel_quantizer="ste_sign",
                                 kernel_constraint="weight_clip",
                                 use_bias=False,
                                 input_shape=(32, 32, 3), name='first_conv'))
@@ -78,7 +78,7 @@ model.add(tf.keras.layers.Activation("softmax"))
 lq.models.summary(model)
 
 loss_object = tf.keras.losses.CategoricalCrossentropy()
-optimizer = tf.keras.optimizers.Adam(learning_rate=lr)
+optimizer = tf.keras.optimizers.Adam(learning_rate=lr, decay=decay)
 
 train_loss = tf.keras.metrics.Mean(name='train_loss')
 train_accuracy = tf.keras.metrics.CategoricalAccuracy(name='train_accuracy')
