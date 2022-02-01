@@ -3,7 +3,7 @@ import numpy as np
 import larq as lq
 import wandb
 
-wandb.init(project="larq", entity="saiyam-jain", group="CIFAR", job_type="error_injection")
+wandb.init(project="larq", entity="saiyam-jain", group="CIFAR_SEI", job_type="error_injection")
 
 
 def flip_weights(weight, n_weights, s, p, digit, print_p):

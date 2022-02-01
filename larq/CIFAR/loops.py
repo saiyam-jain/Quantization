@@ -4,7 +4,7 @@ import larq as lq
 from selective_EI import error_injection
 import wandb
 
-wandb.init(project="larq", entity="saiyam-jain", group="CIFAR", job_type="error_injection")
+wandb.init(project="larq", entity="saiyam-jain", group="CIFAR_SEI", job_type="error_injection")
 
 runs = 100
 layers = ['first_conv', 'second_conv', 'third_conv', 'fourth_conv', 'fifth_conv', 'sixth_conv', 'first_dense', 'second_dense', 'third_dense']

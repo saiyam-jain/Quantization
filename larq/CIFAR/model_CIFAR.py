@@ -2,7 +2,7 @@ import tensorflow as tf
 import larq as lq
 import wandb
 
-wandb.init(project="larq", entity="saiyam-jain", group="CIFAR", job_type="train")
+wandb.init(project="larq", entity="saiyam-jain", group="CIFAR_SEI", job_type="train")
 
 batch_size = 64
 EPOCHS = 150
