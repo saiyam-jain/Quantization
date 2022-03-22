@@ -6,7 +6,7 @@ wandb.init(project="larq", entity="saiyam-jain", group="CIFAR", job_type="train"
 batch_size = 64
 EPOCHS = 100
 lr = 0.001
-decay = 0.0001
+# decay = 0.0001
 
 wandb.config = {
     "epochs": EPOCHS,
@@ -42,6 +42,10 @@ for i in range(3):
     x_a, y_a = data_aug(train_images, train_labels)
     train_images, train_labels = tf.concat([train_images, x_a], 0), tf.concat([train_labels, y_a], 0)
 
+#normalization
+train_images = train_images/255
+test_images = test_images/255
+
 train_labels = tf.keras.utils.to_categorical(train_labels, num_classes)
 test_labels = tf.keras.utils.to_categorical(test_labels, num_classes)
 
@@ -54,13 +58,18 @@ test_ds = tf.data.Dataset.from_tensor_slices((test_images, test_labels)).batch(b
 model = tf.keras.models.Sequential()
 
 # In the first layer we only quantize the weights and not the input
-model.add(tf.keras.layers.Conv2D(filters=6,
+model.add(tf.keras.layers.Conv2D(filters=16,
                                  kernel_size=(3, 3),
                                  activation='relu',
                                  input_shape=(32, 32, 3)))
 model.add(tf.keras.layers.AveragePooling2D())
 
-model.add(tf.keras.layers.Conv2D(filters=16,
+model.add(tf.keras.layers.Conv2D(filters=32,
+                                 kernel_size=(3, 3),
+                                 activation='relu'))
+model.add(tf.keras.layers.AveragePooling2D())
+
+model.add(tf.keras.layers.Conv2D(filters=64,
                                  kernel_size=(3, 3),
                                  activation='relu'))
 model.add(tf.keras.layers.AveragePooling2D())
@@ -76,7 +85,7 @@ model.add(tf.keras.layers.Dense(units=10, activation='softmax'))
 model.summary()
 
 loss_object = tf.keras.losses.CategoricalCrossentropy()
-optimizer = tf.keras.optimizers.Adam(learning_rate=lr, decay=decay)
+optimizer = tf.keras.optimizers.Adam(learning_rate=lr)
 
 train_loss = tf.keras.metrics.Mean(name='train_loss')
 train_accuracy = tf.keras.metrics.CategoricalAccuracy(name='train_accuracy')
