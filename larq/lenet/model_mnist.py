@@ -41,7 +41,7 @@ model = tf.keras.models.Sequential()
 model.add(tf.keras.layers.Conv2D(filters=6,
                                  kernel_size=(3, 3),
                                  activation='relu',
-                                 input_shape=(32, 32, 3)))
+                                 input_shape=(32, 32, 1)))
 model.add(tf.keras.layers.AveragePooling2D())
 
 model.add(tf.keras.layers.Conv2D(filters=16,
