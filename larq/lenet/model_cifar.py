@@ -1,10 +1,10 @@
 import tensorflow as tf
 import wandb
 
-wandb.init(project="larq", entity="saiyam-jain", group="CIFAR", job_type="train")
+wandb.init(project="larq", entity="saiyam-jain", group="LeNet", job_type="train")
 
-batch_size = 64
-EPOCHS = 100
+batch_size = 128
+EPOCHS = 200
 lr = 0.001
 # decay = 0.0001
 
