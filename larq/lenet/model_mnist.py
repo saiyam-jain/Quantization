@@ -20,7 +20,7 @@ n_train = train_images.shape[0]
 n_test = test_images.shape[0]
 num_classes = 10
 
-#padding  normalization
+# padding & normalization
 train_images = tf.pad(train_images, [[0, 0], [2, 2], [2, 2]])/255
 test_images = tf.pad(test_images, [[0, 0], [2, 2], [2, 2]])/255
 
@@ -44,7 +44,7 @@ kwargs = dict(input_quantizer="ste_sign",
 model = tf.keras.models.Sequential()
 
 # In the first layer we only quantize the weights and not the input
-model.add(lq.layers.QunatConv2D(filters=6,
+model.add(lq.layers.QuantConv2D(filters=6,
                                 kernel_size=(3, 3),
                                 activation='relu',
                                 input_shape=(32, 32, 1),
@@ -53,7 +53,7 @@ model.add(lq.layers.QunatConv2D(filters=6,
                                 use_bias=False))
 model.add(tf.keras.layers.AveragePooling2D())
 
-model.add(lq.layers.QunatConv2D(filters=16,
+model.add(lq.layers.QuantConv2D(filters=16,
                                 kernel_size=(3, 3),
                                 activation='relu',
                                 **kwargs))
@@ -127,4 +127,3 @@ for epoch in range(EPOCHS):
         "Test Loss": test_loss.result().numpy(),
         "Test Accuracy": test_accuracy.result().numpy()
     })
-
