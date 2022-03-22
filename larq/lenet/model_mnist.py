@@ -41,7 +41,7 @@ model.add(layers.Dense(10, activation='softmax'))
 model.summary()
 
 
-loss_object = tf.keras.losses.CategoricalCrossentropy()
+loss_object = tf.keras.losses.SparseCategoricalCrossentropy()
 optimizer = tf.keras.optimizers.Adam(learning_rate=lr)
 
 train_loss = tf.keras.metrics.Mean(name='train_loss')
