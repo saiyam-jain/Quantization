@@ -1,5 +1,6 @@
 import tensorflow as tf
 import wandb
+import larq as lq
 
 wandb.init(project="larq", entity="saiyam-jain", group="LeNet", job_type="train")
 
@@ -35,29 +36,38 @@ print(f"training label size (categorical) with augmentation is {train_labels.sha
 train_ds = tf.data.Dataset.from_tensor_slices((train_images, train_labels)).shuffle(n_train).batch(batch_size)
 test_ds = tf.data.Dataset.from_tensor_slices((test_images, test_labels)).batch(batch_size)
 
+kwargs = dict(input_quantizer="ste_sign",
+              kernel_quantizer="ste_sign",
+              kernel_constraint="weight_clip",
+              use_bias=False)
+
 model = tf.keras.models.Sequential()
 
 # In the first layer we only quantize the weights and not the input
-model.add(tf.keras.layers.Conv2D(filters=6,
-                                 kernel_size=(3, 3),
-                                 activation='relu',
-                                 input_shape=(32, 32, 1)))
+model.add(lq.layers.QunatConv2D(filters=6,
+                                kernel_size=(3, 3),
+                                activation='relu',
+                                input_shape=(32, 32, 1),
+                                kernel_quantizer="ste_sign",
+                                kernel_constraint="weight_clip",
+                                use_bias=False))
 model.add(tf.keras.layers.AveragePooling2D())
 
-model.add(tf.keras.layers.Conv2D(filters=16,
-                                 kernel_size=(3, 3),
-                                 activation='relu'))
+model.add(lq.layers.QunatConv2D(filters=16,
+                                kernel_size=(3, 3),
+                                activation='relu',
+                                **kwargs))
 model.add(tf.keras.layers.AveragePooling2D())
 
 model.add(tf.keras.layers.Flatten())
 
-model.add(tf.keras.layers.Dense(units=120, activation='relu'))
+model.add(lq.layers.QuantDense(units=120, activation='relu', **kwargs))
 
-model.add(tf.keras.layers.Dense(units=84, activation='relu'))
+model.add(lq.layers.QuantDense(units=84, activation='relu', **kwargs))
 
-model.add(tf.keras.layers.Dense(units=10, activation='softmax'))
+model.add(lq.layers.QuantDense(units=10, activation='softmax', **kwargs))
 
-model.summary()
+lq.models.summary(model)
 
 loss_object = tf.keras.losses.CategoricalCrossentropy()
 optimizer = tf.keras.optimizers.Adam(learning_rate=lr)
