@@ -19,11 +19,34 @@ n_train = train_images.shape[0]
 n_test = test_images.shape[0]
 num_classes = 10
 
+train_images = train_images.reshape((n_train, 32, 32, 3)).astype("float32")
+test_images = test_images.reshape((n_test, 32, 32, 3)).astype("float32")
+
+print(f"training image size before augmentation is {train_images.shape}")
+print(f"training label size before augmentation is {train_labels.shape}")
+print(f"testing image size is {test_images.shape}")
+print(f"testing label size is {test_labels.shape}")
+
+# data augmentation
+def data_aug(image, label):
+    image = tf.cast(image, tf.float32)
+    # zero padding to 40x40
+    image = tf.image.resize_with_crop_or_pad(image, 40, 40)
+    # random crop to 32x32
+    image = tf.image.random_crop(image, [image.shape[0], 32, 32, 3])
+    return image, label
+
+
+# apply random crop 3 times
+for i in range(3):
+    x_a, y_a = data_aug(train_images, train_labels)
+    train_images, train_labels = tf.concat([train_images, x_a], 0), tf.concat([train_labels, y_a], 0)
+
 train_labels = tf.keras.utils.to_categorical(train_labels, num_classes)
 test_labels = tf.keras.utils.to_categorical(test_labels, num_classes)
 
-train_images = train_images.reshape((n_train, 32, 32, 3)).astype("float32")
-test_images = test_images.reshape((n_test, 32, 32, 3)).astype("float32")
+print(f"training image size with augmentation is {train_images.shape}")
+print(f"training label size (categorical) with augmentation is {train_labels.shape}")
 
 train_ds = tf.data.Dataset.from_tensor_slices((train_images, train_labels)).shuffle(n_train).batch(batch_size)
 test_ds = tf.data.Dataset.from_tensor_slices((test_images, test_labels)).batch(batch_size)
