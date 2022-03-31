@@ -1,8 +1,5 @@
 import tensorflow as tf
 from qkeras import *
-import wandb
-
-wandb.init(project="quantization", entity="saiyam-jain")
 
 
 def train(first, second, third, fourth, fifth, batch_size=256, epochs=30):
@@ -10,12 +7,6 @@ def train(first, second, third, fourth, fifth, batch_size=256, epochs=30):
     epochs = epochs
     lr = 0.01
     decay = 0.0001
-
-    wandb.config = {
-        "epochs": epochs,
-        "batch_size": batch_size,
-        "lr": lr
-    }
 
     (train_images, train_labels), (test_images, test_labels) = tf.keras.datasets.mnist.load_data()
     n_train = train_images.shape[0]
@@ -110,4 +101,4 @@ def train(first, second, third, fourth, fifth, batch_size=256, epochs=30):
         # )
 
     # test_loss, test_acc = model.evaluate(test_images, test_labels)
-    return train_loss, train_accuracy, test_loss, test_accuracy
+    return train_loss.result(), train_accuracy.result() * 100, test_loss.result(), test_accuracy.result() * 100

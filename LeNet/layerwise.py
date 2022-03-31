@@ -1,5 +1,15 @@
 import model
-import wandb
+# import wandb
+#
+# wandb.init(project="quantization", entity="saiyam-jain")
+batch_size = 256
+epochs = 30
+
+# wandb.config = {
+#     "epochs": epochs,
+#     "batch_size": batch_size,
+#     "lr": lr
+# }
 
 # for fifth in [8, 6, 4, 2]:
 #     for fourth in [8, 6, 4, 2]:
