@@ -2,7 +2,7 @@ import model
 import wandb
 
 wandb.init(project="quantization", entity="saiyam-jain")
-batch_size = 256
+batch_size = 1024
 epochs = 30
 
 wandb.config = {
@@ -15,13 +15,6 @@ for fifth in [8, 6, 4, 2]:
         for third in [8, 6, 4, 2]:
             for second in [8, 6, 4, 2]:
                 for first in [8, 6, 4, 2]:
-                    wandb.log({
-                        "first layer": first,
-                        "second layer": second,
-                        "third layer": third,
-                        "fourth layer": fourth,
-                        "fifth layer": fifth
-                    })
                     print(first, second, third, fourth, fifth)
                     train_loss, train_accuracy, test_loss, test_accuracy = model.train(first,
                                                                                        second,
@@ -32,6 +25,11 @@ for fifth in [8, 6, 4, 2]:
                                                                                        epochs=epochs)
 
                     wandb.log({
+                        "first layer bits": first,
+                        "second layer bits": second,
+                        "third layer bits": third,
+                        "fourth layer bits": fourth,
+                        "fifth layer bits": fifth,
                         "Train Loss": train_loss,
                         "Train Accuracy": train_accuracy,
                         "Test Loss": test_loss,
