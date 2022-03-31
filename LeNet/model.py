@@ -1,5 +1,6 @@
 import tensorflow as tf
 from qkeras import *
+import numpy
 
 
 def train(first, second, third, fourth, fifth, batch_size=256, epochs=30):
@@ -101,4 +102,7 @@ def train(first, second, third, fourth, fifth, batch_size=256, epochs=30):
         # )
 
     # test_loss, test_acc = model.evaluate(test_images, test_labels)
-    return train_loss.result(), train_accuracy.result() * 100, test_loss.result(), test_accuracy.result() * 100
+    return train_loss.result().numpy(), \
+           train_accuracy.result().numpy(), \
+           test_loss.result().numpy(), \
+           test_accuracy.result().numpy()

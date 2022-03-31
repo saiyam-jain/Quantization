@@ -24,6 +24,14 @@ epochs = 30
 #                         "fifth layer": fifth
 #                     })
 
+# wandb.log({
+#     "Epoch": epoch + 1,
+#     "Train Loss": train_loss.result().numpy(),
+#     "Train Accuracy": train_accuracy.result().numpy(),
+#     "Test Loss": test_loss.result().numpy(),
+#     "Test Accuracy": test_accuracy.result().numpy()
+# })
+
 train_loss, train_accuracy, test_loss, test_accuracy = model.train(8, 8, 8, 8, 8, epochs=2)
 print(train_loss, train_accuracy, test_loss, test_accuracy)
 train_loss, train_accuracy, test_loss, test_accuracy = model.train(6, 6, 6, 6, 6, epochs=2)
