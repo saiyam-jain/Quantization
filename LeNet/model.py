@@ -73,19 +73,19 @@ test_loss = tf.keras.metrics.Mean(name='test_loss')
 test_accuracy = tf.keras.metrics.CategoricalAccuracy(name='test_accuracy')
 
 @tf.function
-def train_step(images, labels, model):
+def train_step(images, labels, mdl):
     with tf.GradientTape() as tape:
-        predictions = model(images, training=True)
+        predictions = mdl(images, training=True)
         loss = loss_object(labels, predictions)
-    gradients = tape.gradient(loss, model.trainable_variables)
+    gradients = tape.gradient(loss, mdl.trainable_variables)
     optimizer.apply_gradients(zip(gradients, model.trainable_variables))
     train_loss(loss)
     train_accuracy(labels, predictions)
 
 
 @tf.function
-def test_step(images, labels, model):
-    predictions = model(images, training=False)
+def test_step(images, labels, mdl):
+    predictions = mdl(images, training=False)
     t_loss = loss_object(labels, predictions)
     test_loss(t_loss)
     test_accuracy(labels, predictions)
@@ -96,8 +96,8 @@ for fifth in [8, 6, 4, 2]:
         for third in [8, 6, 4, 2]:
             for second in [8, 6, 4, 2]:
                 for first in [8, 6, 4, 2]:
-                    model = createmodel(first, second, third, fourth, fifth)
-                    model.compile(optimizer, loss_object, train_accuracy)
+                    model1 = createmodel(first, second, third, fourth, fifth)
+                    model1.compile(optimizer, loss_object, train_accuracy)
                     wandb.log({
                         "first layer": first,
                         "second layer": second,
@@ -113,10 +113,10 @@ for fifth in [8, 6, 4, 2]:
                         test_accuracy.reset_states()
 
                         for images, labels in train_ds:
-                            train_step(images, labels, model)
+                            train_step(images, labels, model1)
 
                         for test_images, test_labels in test_ds:
-                            test_step(test_images, test_labels, model)
+                            test_step(test_images, test_labels, model1)
 
                         print(
                             f'Epoch {epoch + 1}, '
