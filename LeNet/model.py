@@ -4,8 +4,8 @@ import wandb
 
 wandb.init(project="quantization", entity="saiyam-jain")
 
-batch_size = 64
-EPOCHS = 50
+batch_size = 256
+EPOCHS = 30
 lr = 0.01
 decay = 0.0001
 
