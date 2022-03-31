@@ -1,11 +1,11 @@
 import tensorflow as tf
-# import qkeras
+from qkeras import *
 import wandb
 
 wandb.init(project="quantization", entity="saiyam-jain", group="LeNet", job_type="train")
 
 batch_size = 64
-EPOCHS = 100
+EPOCHS = 50
 lr = 0.01
 decay = 0.0001
 
@@ -37,14 +37,27 @@ test_ds = tf.data.Dataset.from_tensor_slices((test_images, test_labels)).batch(b
 
 
 model = tf.keras.models.Sequential()
-model.add(tf.keras.layers.Conv2D(filters=6, kernel_size=(3, 3), activation='relu', input_shape=(32, 32, 1)))
+model.add(QConv2D(filters=6, kernel_size=(3, 3),
+                  kernel_quantizer=quantized_bits(8, 0, 1),
+                  bias_quantizer=quantized_bits(8, 0, 1),
+                  activation='relu',
+                  input_shape=(32, 32, 1)))
 model.add(tf.keras.layers.AveragePooling2D())
-model.add(tf.keras.layers.Conv2D(filters=16, kernel_size=(3, 3), activation='relu'))
+model.add(QConv2D(filters=16, kernel_size=(3, 3),
+                  kernel_quantizer=quantized_bits(8, 0, 1),
+                  bias_quantizer=quantized_bits(8, 0, 1),
+                  activation='relu'))
 model.add(tf.keras.layers.AveragePooling2D())
 model.add(tf.keras.layers.Flatten())
-model.add(tf.keras.layers.Dense(units=120, activation='relu'))
-model.add(tf.keras.layers.Dense(units=84, activation='relu'))
-model.add(tf.keras.layers.Dense(units=10, activation='softmax'))
+model.add(QDense(units=120, activation='relu',
+                 kernel_quantizer=quantized_bits(8, 0, 1),
+                 bias_quantizer=quantized_bits(8, 0, 1)))
+model.add(QDense(units=84, activation='relu',
+                 kernel_quantizer=quantized_bits(8, 0, 1),
+                 bias_quantizer=quantized_bits(8, 0, 1)))
+model.add(QDense(units=10, activation='softmax',
+                 kernel_quantizer=quantized_bits(8, 0, 1),
+                 bias_quantizer=quantized_bits(8, 0, 1)))
 
 model.summary()
 
