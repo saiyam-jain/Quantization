@@ -78,7 +78,7 @@ def train_step(images, labels, mdl):
         predictions = mdl(images, training=True)
         loss = loss_object(labels, predictions)
     gradients = tape.gradient(loss, mdl.trainable_variables)
-    optimizer.apply_gradients(zip(gradients, model.trainable_variables))
+    optimizer.apply_gradients(zip(gradients, mdl.trainable_variables))
     train_loss(loss)
     train_accuracy(labels, predictions)
 
