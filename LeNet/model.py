@@ -4,6 +4,7 @@ import numpy
 
 
 def train(first, second, third, fourth, fifth, batch_size=256, epochs=30):
+    tf.keras.backend.clear_session()
     batch_size = batch_size
     epochs = epochs
     lr = 0.01
