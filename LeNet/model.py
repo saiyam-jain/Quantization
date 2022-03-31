@@ -73,7 +73,7 @@ test_loss = tf.keras.metrics.Mean(name='test_loss')
 test_accuracy = tf.keras.metrics.CategoricalAccuracy(name='test_accuracy')
 
 @tf.function
-def train_step(images, labels):
+def train_step(images, labels, model):
     with tf.GradientTape() as tape:
         predictions = model(images, training=True)
         loss = loss_object(labels, predictions)
@@ -84,7 +84,7 @@ def train_step(images, labels):
 
 
 @tf.function
-def test_step(images, labels):
+def test_step(images, labels, model):
     predictions = model(images, training=False)
     t_loss = loss_object(labels, predictions)
     test_loss(t_loss)
@@ -113,10 +113,10 @@ for fifth in [8, 6, 4, 2]:
                         test_accuracy.reset_states()
 
                         for images, labels in train_ds:
-                            train_step(images, labels)
+                            train_step(images, labels, model)
 
                         for test_images, test_labels in test_ds:
-                            test_step(test_images, test_labels)
+                            test_step(test_images, test_labels, model)
 
                         print(
                             f'Epoch {epoch + 1}, '
