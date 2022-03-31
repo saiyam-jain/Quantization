@@ -32,7 +32,7 @@ epochs = 30
 #     "Test Accuracy": test_accuracy.result().numpy()
 # })
 
-train_loss, train_accuracy, test_loss, test_accuracy = model.train(8, 8, 8, 8, 8, epochs=10)
+train_loss, train_accuracy, test_loss, test_accuracy = model.train(8, 8, 8, 8, 8, epochs=2)
 print(train_loss, train_accuracy, test_loss, test_accuracy)
 train_loss, train_accuracy, test_loss, test_accuracy = model.train(2, 2, 2, 2, 2, epochs=10)
 print(train_loss, train_accuracy, test_loss, test_accuracy)

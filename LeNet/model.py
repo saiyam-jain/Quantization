@@ -94,13 +94,13 @@ def train(first, second, third, fourth, fifth, batch_size=256, epochs=30):
         for test_images, test_labels in test_ds:
             test_step(test_images, test_labels)
 
-        # print(
-        #     f'Epoch {epoch + 1}, '
-        #     f'Loss: {train_loss.result()}, '
-        #     f'Accuracy: {train_accuracy.result() * 100}, '
-        #     f'Test Loss: {test_loss.result()}, '
-        #     f'Test Accuracy: {test_accuracy.result() * 100}'
-        # )
+        print(
+            f'Epoch {epoch + 1}, '
+            f'Loss: {train_loss.result()}, '
+            f'Accuracy: {train_accuracy.result() * 100}, '
+            f'Test Loss: {test_loss.result()}, '
+            f'Test Accuracy: {test_accuracy.result() * 100}'
+        )
 
     # test_loss, test_acc = model.evaluate(test_images, test_labels)
     return train_loss.result().numpy(), \
