@@ -133,7 +133,7 @@ for fifth in [6, 4, 2]:
     first = 8
     second = 8
     third = 8
-    fouth = 8
+    fourth = 8
     print(first, second, third, fourth, fifth)
     train_loss, train_accuracy, test_loss, test_accuracy = model.train(first,
                                                                        second,
