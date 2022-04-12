@@ -39,8 +39,7 @@ def train(first, second, third, fourth, fifth, batch_size=256, epochs=30):
     model.add(tf.keras.layers.AveragePooling2D())
     model.add(QConv2D(filters=16, kernel_size=(3, 3),
                       kernel_quantizer=quantized_bits(8, 0, 0),
-                      bias_quantizer=quantized_bits(32, 0, 0),
-                      activation='relu'))
+                      bias_quantizer=quantized_bits(32, 0, 0),))
     model.add(QActivation(second))
     model.add(tf.keras.layers.AveragePooling2D())
     model.add(tf.keras.layers.Flatten())
@@ -65,6 +64,8 @@ def train(first, second, third, fourth, fifth, batch_size=256, epochs=30):
     test_accuracy = tf.keras.metrics.CategoricalAccuracy(name='test_accuracy')
 
     model.compile(optimizer, loss_object, train_accuracy)
+
+    print_qstats(model)
 
     @tf.function
     def train_step(images, labels):
