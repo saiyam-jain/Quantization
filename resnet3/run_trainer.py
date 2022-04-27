@@ -34,28 +34,26 @@ flags.DEFINE_boolean('shortcut_connection', True, 'Whether to add shortcut '
 FLAGS = flags.FLAGS
 
 
-def main(_):
-  builder = Cifar10DatasetBuilder(buffer_size=FLAGS.shuffle_buffer_size)
-  labels, images = read_data(FLAGS.data_path, training=True)
-  dataset = builder.build_dataset(
-      labels, images, FLAGS.batch_size, training=True)
+builder = Cifar10DatasetBuilder(buffer_size=FLAGS.shuffle_buffer_size)
+labels, images = read_data(FLAGS.data_path, training=True)
+dataset = builder.build_dataset(labels, images, FLAGS.batch_size, training=True)
 
-  model = ResNetCifar10(FLAGS.num_layers, 
-                        shortcut_connection=FLAGS.shortcut_connection, 
-                        weight_decay=FLAGS.weight_decay, 
-                        batch_norm_momentum=FLAGS.batch_norm_momentum)
-  optimizer = build_optimizer(init_lr=FLAGS.init_lr, momentum=FLAGS.momentum)
-  ckpt = tf.train.Checkpoint(model=model, optimizer=optimizer)
+model = ResNetCifar10(FLAGS.num_layers,
+                      shortcut_connection=FLAGS.shortcut_connection,
+                      weight_decay=FLAGS.weight_decay,
+                      batch_norm_momentum=FLAGS.batch_norm_momentum)
+optimizer = build_optimizer(init_lr=FLAGS.init_lr, momentum=FLAGS.momentum)
+ckpt = tf.train.Checkpoint(model=model, optimizer=optimizer)
 
-  trainer = ResNetCifar10Trainer(model)
-  trainer.train(dataset, 
-                optimizer, 
-                ckpt, 
-                FLAGS.batch_size, 
-                FLAGS.num_iterations, 
-                FLAGS.log_per_iterations, 
-                FLAGS.ckpt_path)
+trainer = ResNetCifar10Trainer(model)
+trainer.train(dataset,
+              optimizer,
+              ckpt,
+              FLAGS.batch_size,
+              FLAGS.num_iterations,
+              FLAGS.log_per_iterations,
+              FLAGS.ckpt_path)
 
-if __name__ == '__main__':
-  flags.mark_flag_as_required('data_path')
-  app.run(main)
+# if __name__ == '__main__':
+#   flags.mark_flag_as_required('data_path')
+#   app.run(main)
