@@ -64,6 +64,11 @@ class ResNetCifar10Trainer(object):
           zip(gradients, self._model.trainable_variables))
       step = optimizer.iterations
       lr = optimizer.learning_rate(step)
+
+      wandb.log({
+        "train acc": accuracy,
+        "epoch": step
+      })
       
       return total_loss, accuracy, step - 1, lr
 
@@ -133,6 +138,10 @@ class ResNetCifar10Evaluator(object):
       total_loss = tf.add_n(regularization_losses + [cross_entropy_loss])
       accuracy = tf.reduce_mean(tf.cast(tf.equal(
           labels, tf.argmax(logits, 1)), 'float32'))
+
+      wandb.log({
+        "test acc": accuracy
+      })
 
       return total_loss, accuracy
 
