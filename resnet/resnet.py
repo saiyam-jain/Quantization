@@ -15,9 +15,9 @@ class BasicBlock:
 
     def __init__(self, in_planes, planes, stride=1, option='A'):
         super(BasicBlock, self).__init__()
-        self.conv1 = tf.keras.layers.Conv2D(planes, kernel_size=3, stride=stride, padding=1, use_bias=False)
+        self.conv1 = tf.keras.layers.Conv2D(planes, kernel_size=3, strides=stride, padding=1, use_bias=False)
         self.bn1 = tf.keras.layers.BatchNormalization()
-        self.conv2 = tf.keras.layers.Conv2D(planes, kernel_size=3, stride=1, padding=1, use_bias=False)
+        self.conv2 = tf.keras.layers.Conv2D(planes, kernel_size=3, strides=1, padding=1, use_bias=False)
         self.bn2 = tf.keras.layers.BatchNormalization()
 
         self.shortcut = tf.keras.models.Sequential()
@@ -30,7 +30,7 @@ class BasicBlock:
                                             tf.pad(x[:, :, ::2, ::2], [[0, 0], [planes//4, planes//4], [0, 0], [0, 0]], "constant", 0))
             elif option == 'B':
                 self.shortcut = tf.keras.models.Sequential(
-                     tf.keras.layers.Conv2D(self.expansion * planes, kernel_size=1, stride=stride, use_bias=False),
+                     tf.keras.layers.Conv2D(self.expansion * planes, kernel_size=1, strides=stride, use_bias=False),
                      tf.keras.layers.BatchNormalization()
                 )
 
@@ -47,7 +47,7 @@ class ResNet:
         super(ResNet, self).__init__()
         self.in_planes = 16
 
-        self.conv1 = tf.keras.layers.Conv2D(16, kernel_size=3, stride=1, padding=1, use_bias=False)
+        self.conv1 = tf.keras.layers.Conv2D(16, kernel_size=3, strides=1, padding=1, use_bias=False)
         self.bn1 = tf.keras.layers.BatchNormalization()
         self.layer1 = self._make_layer(block, 16, num_blocks[0], stride=1)
         self.layer2 = self._make_layer(block, 32, num_blocks[1], stride=2)
@@ -69,7 +69,7 @@ class ResNet:
         out = self.layer2(out)
         out = self.layer3(out)
         out = tf.keras.layers.AveragePooling2D(out.size()[3])(out)
-        out = out.view(out.size(0), -1)
+        out = tf.keras.layers.Flatten()(out)
         out = self.linear(out)
         return out
 
