@@ -58,7 +58,7 @@ class ResNet:
         strides = [stride] + [1]*(num_blocks-1)
         layers = []
         for stride in strides:
-            layers.append(block(self.in_planes, planes, stride))
+            layers.append(block(planes, stride))
             self.in_planes = planes * block.expansion
 
         return tf.keras.models.Sequential(*layers)
