@@ -1,7 +1,7 @@
 import tensorflow as tf
 
 
-class LambdaLayer(tf.nn):
+class LambdaLayer:
     def __init__(self, lambd):
         super(LambdaLayer, self).__init__()
         self.lambd = lambd
@@ -10,7 +10,7 @@ class LambdaLayer(tf.nn):
         return self.lambd(x)
 
 
-class BasicBlock(tf.nn):
+class BasicBlock:
     expansion = 1
 
     def __init__(self, in_planes, planes, stride=1, option='A'):
@@ -42,7 +42,7 @@ class BasicBlock(tf.nn):
         return out
 
 
-class ResNet(tf.nn):
+class ResNet:
     def __init__(self, block, num_blocks, num_classes=10):
         super(ResNet, self).__init__()
         self.in_planes = 16
