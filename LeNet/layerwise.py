@@ -17,15 +17,15 @@ fourth = "quantized_relu(8,0)"
 fifth = "quantized_relu(8,0)"
 
 print(first, second, third, fourth, fifth)
-train_loss, train_accuracy, test_loss, test_accuracy = model.train(first,
-                                                                   second,
-                                                                   third,
-                                                                   fourth,
-                                                                   fifth,
-                                                                   batch_size=batch_size,
-                                                                   epochs=epochs)
+# train_loss, train_accuracy, test_loss, test_accuracy = model.train(first,
+#                                                                    second,
+#                                                                    third,
+#                                                                    fourth,
+#                                                                    fifth,
+#                                                                    batch_size=batch_size,
+#                                                                    epochs=epochs)
 i = 8
-for first in ["quantized_relu(6,0)", "quantized_relu(4,0)", "quantized_relu(2,0)"]:
+for first in ["quantized_relu(8,0)", "quantized_relu(6,0)", "quantized_relu(4,0)", "quantized_relu(2,0)"]:
     i = i-2
     second = "quantized_relu(8,0)"
     third = "quantized_relu(8,0)"
@@ -52,7 +52,7 @@ for first in ["quantized_relu(6,0)", "quantized_relu(4,0)", "quantized_relu(2,0)
     })
 
 i = 8
-for second in ["quantized_relu(6,0)", "quantized_relu(4,0)", "quantized_relu(2,0)"]:
+for second in ["quantized_relu(8,0)", "quantized_relu(6,0)", "quantized_relu(4,0)", "quantized_relu(2,0)"]:
     i = i - 2
     first = "quantized_relu(8,0)"
     third = "quantized_relu(8,0)"
@@ -79,7 +79,7 @@ for second in ["quantized_relu(6,0)", "quantized_relu(4,0)", "quantized_relu(2,0
     })
 
 i = 8
-for third in ["quantized_relu(6,0)", "quantized_relu(4,0)", "quantized_relu(2,0)"]:
+for third in ["quantized_relu(8,0)", "quantized_relu(6,0)", "quantized_relu(4,0)", "quantized_relu(2,0)"]:
     i = i - 2
     first = "quantized_relu(8,0)"
     second = "quantized_relu(8,0)"
@@ -106,7 +106,7 @@ for third in ["quantized_relu(6,0)", "quantized_relu(4,0)", "quantized_relu(2,0)
     })
 
 i = 8
-for fourth in ["quantized_relu(6,0)", "quantized_relu(4,0)", "quantized_relu(2,0)"]:
+for fourth in ["quantized_relu(8,0)", "quantized_relu(6,0)", "quantized_relu(4,0)", "quantized_relu(2,0)"]:
     i = i - 2
     first = "quantized_relu(8,0)"
     second = "quantized_relu(8,0)"
