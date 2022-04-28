@@ -20,7 +20,7 @@ class BasicBlock:
         self.conv2 = tf.keras.layers.Conv2D(planes, kernel_size=3, strides=1, use_bias=False)
         self.bn2 = tf.keras.layers.BatchNormalization()
 
-        self.shortcut = tf.keras.models.Sequential()
+        self.shortcut = tf.keras.Sequential()
         if stride != 1 or in_planes != planes:
             if option == 'A':
                 """
@@ -29,7 +29,7 @@ class BasicBlock:
                 self.shortcut = LambdaLayer(lambda x:
                                             tf.pad(x[:, :, ::2, ::2], [[0, 0], [planes//4, planes//4], [0, 0], [0, 0]], "constant", 0))
             elif option == 'B':
-                self.shortcut = tf.keras.models.Sequential(
+                self.shortcut = tf.keras.Sequential(
                      tf.keras.layers.Conv2D(self.expansion * planes, kernel_size=1, strides=stride, use_bias=False),
                      tf.keras.layers.BatchNormalization()
                 )
@@ -58,10 +58,10 @@ class ResNet:
         strides = [stride] + [1]*(num_blocks-1)
         layers = []
         for stride in strides:
-            layers.append(block(planes, stride))
+            layers.append(block(self.in_planes, planes, stride))
             self.in_planes = planes * block.expansion
 
-        return tf.keras.models.Sequential(*layers)
+        return tf.keras.Sequential(*layers)
 
     def forward(self, x):
         out = tf.nn.relu(self.bn1(self.conv1(x)))
