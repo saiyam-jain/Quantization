@@ -57,11 +57,12 @@ class ResNet:
     def _make_layer(self, block, planes, num_blocks, stride):
         strides = [stride] + [1]*(num_blocks-1)
         layers = []
+        sequential = tf.keras.Sequential()
         for stride in strides:
             layers.append(block(planes, stride))
             # self.in_planes = planes * block.expansion
 
-        return tf.keras.Sequential(*layers)
+        return sequential(*layers)
 
     def forward(self, x):
         out = tf.nn.relu(self.bn1(self.conv1(x)))
