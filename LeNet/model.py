@@ -32,27 +32,27 @@ def train(first, second, third, fourth, fifth, batch_size=256, epochs=30):
 
     model = tf.keras.models.Sequential()
     model.add(QConv2D(filters=6, kernel_size=(3, 3),
-                      kernel_quantizer=quantized_bits(8, 0, 0),
+                      kernel_quantizer=quantized_bits(first, 0, 0),
                       bias_quantizer=quantized_bits(32, 0, 0),
                       input_shape=(32, 32, 1)))
-    model.add(QActivation(first))
+    model.add(QActivation("quantized_relu(8, 0)"))
     model.add(tf.keras.layers.AveragePooling2D())
     model.add(QConv2D(filters=16, kernel_size=(3, 3),
-                      kernel_quantizer=quantized_bits(8, 0, 0),
+                      kernel_quantizer=quantized_bits(second, 0, 0),
                       bias_quantizer=quantized_bits(32, 0, 0),))
-    model.add(QActivation(second))
+    model.add(QActivation("quantized_relu(8,0)"))
     model.add(tf.keras.layers.AveragePooling2D())
     model.add(tf.keras.layers.Flatten())
     model.add(QDense(units=120,
-                     kernel_quantizer=quantized_bits(8, 0, 0),
+                     kernel_quantizer=quantized_bits(third, 0, 0),
                      bias_quantizer=quantized_bits(32, 0, 0)))
-    model.add(QActivation(third))
+    model.add(QActivation("quantized_relu(8, 0)"))
     model.add(QDense(units=84,
-                     kernel_quantizer=quantized_bits(8, 0, 0),
+                     kernel_quantizer=quantized_bits(fourth, 0, 0),
                      bias_quantizer=quantized_bits(32, 0, 0)))
-    model.add(QActivation(fourth))
+    model.add(QActivation("quantized_relu(8, 0)"))
     model.add(QDense(units=10, activation='softmax',
-                     kernel_quantizer=quantized_bits(8, 0, 0),
+                     kernel_quantizer=quantized_bits(fifth, 0, 0),
                      bias_quantizer=quantized_bits(32, 0, 0)))
 
     loss_object = tf.keras.losses.CategoricalCrossentropy()
@@ -65,7 +65,7 @@ def train(first, second, third, fourth, fifth, batch_size=256, epochs=30):
 
     model.compile(optimizer, loss_object, train_accuracy)
 
-    print_qstats(model)
+    # print_qstats(model)
 
     @tf.function
     def train_step(images, labels):
