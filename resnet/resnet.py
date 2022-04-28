@@ -61,7 +61,7 @@ class ResNet:
             layers.append(block(self.in_planes, planes, stride))
             self.in_planes = planes * block.expansion
 
-        return tf.keras.models.Sequential(*layers)
+        return tf.keras.models.Sequential(layers)
 
     def forward(self, x):
         out = tf.nn.relu(self.bn1(self.conv1(x)))
