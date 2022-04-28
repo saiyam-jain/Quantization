@@ -6,3 +6,7 @@ model_names = sorted(name for name in resnet.__dict__
                      and callable(resnet.__dict__[name]))
 
 print(model_names)
+
+model = resnet.resnet20()
+
+model.summary()
