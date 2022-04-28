@@ -24,7 +24,7 @@ print(first, second, third, fourth, fifth)
 #                                                                    fifth,
 #                                                                    batch_size=batch_size,
 #                                                                    epochs=epochs)
-i = 8
+i = 10
 for first in ["quantized_relu(8,0)", "quantized_relu(6,0)", "quantized_relu(4,0)", "quantized_relu(2,0)"]:
     i = i-2
     second = "quantized_relu(8,0)"
@@ -51,7 +51,7 @@ for first in ["quantized_relu(8,0)", "quantized_relu(6,0)", "quantized_relu(4,0)
         "Test Accuracy": test_accuracy
     })
 
-i = 8
+i = 10
 for second in ["quantized_relu(8,0)", "quantized_relu(6,0)", "quantized_relu(4,0)", "quantized_relu(2,0)"]:
     i = i - 2
     first = "quantized_relu(8,0)"
@@ -78,7 +78,7 @@ for second in ["quantized_relu(8,0)", "quantized_relu(6,0)", "quantized_relu(4,0
         "Test Accuracy": test_accuracy
     })
 
-i = 8
+i = 10
 for third in ["quantized_relu(8,0)", "quantized_relu(6,0)", "quantized_relu(4,0)", "quantized_relu(2,0)"]:
     i = i - 2
     first = "quantized_relu(8,0)"
@@ -105,7 +105,7 @@ for third in ["quantized_relu(8,0)", "quantized_relu(6,0)", "quantized_relu(4,0)
         "Test Accuracy": test_accuracy
     })
 
-i = 8
+i = 10
 for fourth in ["quantized_relu(8,0)", "quantized_relu(6,0)", "quantized_relu(4,0)", "quantized_relu(2,0)"]:
     i = i - 2
     first = "quantized_relu(8,0)"
