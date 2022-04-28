@@ -13,7 +13,7 @@ class LambdaLayer:
 class BasicBlock:
     expansion = 1
 
-    def __init__(self, in_planes, planes, stride=1, option='A'):
+    def __init__(self, planes, stride=1, option='A'):
         super(BasicBlock, self).__init__()
         self.conv1 = tf.keras.layers.Conv2D(planes, kernel_size=3, strides=stride, use_bias=False)
         self.bn1 = tf.keras.layers.BatchNormalization()
@@ -21,7 +21,7 @@ class BasicBlock:
         self.bn2 = tf.keras.layers.BatchNormalization()
 
         self.shortcut = tf.keras.Sequential()
-        if stride != 1 or in_planes != planes:
+        if stride != 1:
             if option == 'A':
                 """
                 For CIFAR10 ResNet paper uses option A.
@@ -45,7 +45,7 @@ class BasicBlock:
 class ResNet:
     def __init__(self, block, num_blocks, num_classes=10):
         super(ResNet, self).__init__()
-        self.in_planes = 16
+        # self.in_planes = 16
 
         self.conv1 = tf.keras.layers.Conv2D(16, kernel_size=3, strides=1, use_bias=False)
         self.bn1 = tf.keras.layers.BatchNormalization()
@@ -58,8 +58,8 @@ class ResNet:
         strides = [stride] + [1]*(num_blocks-1)
         layers = []
         for stride in strides:
-            layers.append(block(self.in_planes, planes, stride))
-            self.in_planes = planes * block.expansion
+            layers.append(block(planes, stride))
+            # self.in_planes = planes * block.expansion
 
         return tf.keras.Sequential(*layers)
 
