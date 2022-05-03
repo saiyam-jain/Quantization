@@ -49,6 +49,7 @@ train_images = tf.convert_to_tensor(train_images)
 train_labels = tf.convert_to_tensor(train_labels)
 
 train_labels = tf.keras.utils.to_categorical(train_labels, num_classes)
+tf.keras.backend.clear_session()
 
 cifar_testset = datasets.CIFAR10(root='./data', train=False, transform=transforms.Compose([
     transforms.ToTensor(),
