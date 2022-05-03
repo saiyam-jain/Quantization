@@ -15,7 +15,7 @@ print(model_names)
 
 batch_size = 64
 lr = 0.1
-momentum=0.9
+momentum = 0.9
 EPOCHS = 200
 # os.environ['TF_GPU_ALLOCATOR'] = 'cuda_malloc_async'
 
@@ -45,8 +45,8 @@ num_classes = 10
 
 train_images = train_images.reshape((n_train, 32, 32, 3))
 
-train_images = tf.convert_to_tensor(train_images)
-train_labels = tf.convert_to_tensor(train_labels)
+train_images = tf.convert_to_tensor(train_images, device='/device:GPU:1')
+train_labels = tf.convert_to_tensor(train_labels, device='/device:GPU:1')
 
 train_labels = tf.keras.utils.to_categorical(train_labels, num_classes)
 tf.keras.backend.clear_session()
@@ -70,8 +70,8 @@ n_test = test_images.shape[0]
 
 test_images = test_images.reshape((n_test, 32, 32, 3))
 
-test_images = tf.convert_to_tensor(test_images)
-test_labels = tf.convert_to_tensor(test_labels)
+test_images = tf.convert_to_tensor(test_images, device='/device:GPU:2')
+test_labels = tf.convert_to_tensor(test_labels, device='/device:GPU:2')
 
 test_labels = tf.keras.utils.to_categorical(test_labels, num_classes)
 
