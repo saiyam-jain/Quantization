@@ -11,7 +11,7 @@ model_names = sorted(name for name in resnet.__dict__
                      and name.startswith("resnet")
                      and callable(resnet.__dict__[name]))
 
-print(model_names)
+# print(model_names)
 
 batch_size = 64
 lr = 0.1
@@ -45,13 +45,13 @@ num_classes = 10
 
 train_images = train_images.reshape((n_train, 32, 32, 3))
 
-train_images = tf.convert_to_tensor(train_images, device='/device:GPU:1')
-train_labels = tf.convert_to_tensor(train_labels, device='/device:GPU:1')
+train_images = tf.convert_to_tensor(train_images)
+train_labels = tf.convert_to_tensor(train_labels)
 
 train_labels = tf.keras.utils.to_categorical(train_labels, num_classes)
 tf.keras.backend.clear_session()
 
-cifar_testset = datasets.CIFAR10(root='./data', train=False, transform=transforms.Compose([
+cifar_testset = datasets.CIFAR10(root='./data', train=False, download=True, transform=transforms.Compose([
     transforms.ToTensor(),
     normalize
 ]))
@@ -70,8 +70,8 @@ n_test = test_images.shape[0]
 
 test_images = test_images.reshape((n_test, 32, 32, 3))
 
-test_images = tf.convert_to_tensor(test_images, device='/device:GPU:2')
-test_labels = tf.convert_to_tensor(test_labels, device='/device:GPU:2')
+test_images = tf.convert_to_tensor(test_images)
+test_labels = tf.convert_to_tensor(test_labels)
 
 test_labels = tf.keras.utils.to_categorical(test_labels, num_classes)
 
