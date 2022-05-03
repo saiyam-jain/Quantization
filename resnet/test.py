@@ -12,7 +12,7 @@ cifar_trainset = datasets.CIFAR10(root='./data', train=True, download=True, tran
 
 arr = []
 for i, (x, y) in enumerate(cifar_trainset):
-    arr.append(x)
+    arr.append(x.numpy())
     if i==3:
         break
 
