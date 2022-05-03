@@ -69,7 +69,7 @@ class ResNet(tf.keras.Model):
         out = self.layer1(out)
         out = self.layer2(out)
         out = self.layer3(out)
-        out = tf.keras.layers.AveragePooling2D(out.size()[3])(out)
+        out = tf.keras.layers.AveragePooling2D(out.shape[3])(out)
         out = tf.keras.layers.Flatten()(out)
         out = self.linear(out)
         return out
