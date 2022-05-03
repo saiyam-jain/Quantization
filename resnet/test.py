@@ -16,4 +16,4 @@ for i, (x, y) in enumerate(cifar_trainset):
     if i==3:
         break
 
-arr.shape
+print(arr.shape)
