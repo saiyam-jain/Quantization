@@ -35,8 +35,8 @@ class BasicBlock(tf.keras.Model):
                 )
 
     def __call__(self, x):
-        out = tf.nn.relu(self.bn1(self.conv1(x)))
-        out = self.bn2(self.conv2(out))
+        out = tf.nn.relu(self.conv1(x))
+        out = self.conv2(out)
         out += self.shortcut(x)
         out = tf.nn.relu(out)
         return out
@@ -65,7 +65,7 @@ class ResNet(tf.keras.Model):
         return sequential(*layers)
 
     def __call__(self, x):
-        out = tf.nn.relu(self.bn1(self.conv1(x)))
+        out = tf.nn.relu(self.conv1(x))
         out = self.layer1(out)
         out = self.layer2(out)
         out = self.layer3(out)
