@@ -10,10 +10,11 @@ train_transform = transforms.Compose([transforms.RandomHorizontalFlip(),transfor
 
 cifar_trainset = datasets.CIFAR10(root='./data', train=True, download=True, transform=train_transform)
 
-arr=np.empty((3,32,32))
+arr = []
 for i, (x, y) in enumerate(cifar_trainset):
-    arr = np.append(arr, x.numpy())
+    arr.append(x)
     if i==3:
         break
 
-print(arr.shape)
+array = np.array(arr)
+print(array.shape)
