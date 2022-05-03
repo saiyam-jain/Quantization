@@ -15,6 +15,9 @@ train_transform = transforms.Compose([
 
 cifar_trainset = datasets.CIFAR10(root='./data', train=True, download=True, transform=train_transform)
 
+i=0
 for (x,y) in cifar_trainset:
-    print(x)
-    print(y)
+    print(x.shape)
+    print(y.shape)
+    if i==2:
+        break
