@@ -27,7 +27,7 @@ class BasicBlock(tf.keras.Model):
                 For CIFAR10 ResNet paper uses option A.
                 """
                 self.shortcut = LambdaLayer(lambda x:
-                                            tf.pad(x[:, :, ::2, ::2], [[0, 0], [planes//4, planes//4], [0, 0], [0, 0]], "constant", 0))
+                                            tf.pad(x[:, ::2, ::2, :], [[0, 0], [0, 0], [0, 0], [64//4, 64//4]], "constant", 0))
             elif option == 'B':
                 self.shortcut = tf.keras.Sequential(
                      tf.keras.layers.Conv2D(self.expansion * planes, kernel_size=1, strides=stride, use_bias=False),
