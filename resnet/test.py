@@ -15,7 +15,7 @@ train_labels = []
 
 for i, (x, y) in enumerate(cifar_trainset):
     train_images.append(x.numpy())
-    train_labels.append(y.numpy())
+    train_labels.append(y)
 
 train_images = np.array(train_images)
 train_labels = np.array(train_labels)
