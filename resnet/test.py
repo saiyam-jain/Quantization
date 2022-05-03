@@ -15,9 +15,4 @@ train_transform = transforms.Compose([
 
 cifar_trainset = datasets.CIFAR10(root='./data', train=True, download=True, transform=train_transform)
 
-i=0
-for (x,y) in cifar_trainset:
-    print(x.size())
-    print(y.size())
-    if i==2:
-        break
+train_ds = tf.convert_to_tensor(cifar_trainset)
