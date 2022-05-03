@@ -34,7 +34,7 @@ class BasicBlock:
                      tf.keras.layers.BatchNormalization()
                 )
 
-    def forward(self, x):
+    def call(self, x):
         out = tf.nn.relu(self.bn1(self.conv1(x)))
         out = self.bn2(self.conv2(out))
         out += self.shortcut(x)
@@ -64,7 +64,7 @@ class ResNet:
 
         return sequential(*layers)
 
-    def forward(self, x):
+    def call(self, x):
         out = tf.nn.relu(self.bn1(self.conv1(x)))
         out = self.layer1(out)
         out = self.layer2(out)
