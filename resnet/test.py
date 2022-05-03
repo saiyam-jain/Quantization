@@ -20,6 +20,16 @@ for i, (x, y) in enumerate(cifar_trainset):
 train_images = np.array(train_images)
 train_labels = np.array(train_labels)
 
+n_train = train_images.shape[0]
+num_classes = 10
+
+train_images = train_images.reshape((n_train, 32, 32, 3))
+
+train_images = tf.convert_to_tensor(train_images)
+train_labels = tf.convert_to_tensor(train_labels)
+
+train_labels = tf.keras.utils.to_categorical(train_labels, num_classes)
+
 print(train_images.shape)
 print(train_images.dtype)
 print(train_images.min())
