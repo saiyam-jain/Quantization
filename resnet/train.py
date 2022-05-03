@@ -4,7 +4,7 @@ import torch
 import torchvision.transforms as transforms
 import torchvision.datasets as datasets
 import numpy as np
-
+import os
 
 model_names = sorted(name for name in resnet.__dict__
     if name.islower() and not name.startswith("__")
@@ -17,6 +17,7 @@ batch_size = 64
 lr = 0.1
 momentum=0.9
 EPOCHS = 200
+os.environ[‘TF_GPU_ALLOCATOR’] = ‘cuda_malloc_async’
 
 normalize = transforms.Normalize(mean=[0.485, 0.456, 0.406], std=[0.229, 0.224, 0.225])
 
