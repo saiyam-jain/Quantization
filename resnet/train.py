@@ -81,17 +81,25 @@ train_ds = tf.data.Dataset.from_tensor_slices((train_images, train_labels)).shuf
 model = resnet.resnet20()
 
 
+# loss_object = tf.keras.losses.CategoricalCrossentropy()
+# optimizer = tf.keras.optimizers.SGD(learning_rate=lr, momentum=momentum)
+#
+# train_loss = tf.keras.metrics.Mean(name='train_loss')
+# train_accuracy = tf.keras.metrics.CategoricalAccuracy(name='train_accuracy')
+# # test_loss = tf.keras.metrics.Mean(name='test_loss')
+# # test_accuracy = tf.keras.metrics.CategoricalAccuracy(name='test_accuracy')
+#
+# model.compile(optimizer, loss_object, train_accuracy)
+
+model.summary()
+
 loss_object = tf.keras.losses.CategoricalCrossentropy()
-optimizer = tf.keras.optimizers.SGD(learning_rate=lr, momentum=momentum)
+optimizer = tf.keras.optimizers.Adam()
 
 train_loss = tf.keras.metrics.Mean(name='train_loss')
 train_accuracy = tf.keras.metrics.CategoricalAccuracy(name='train_accuracy')
-# test_loss = tf.keras.metrics.Mean(name='test_loss')
-# test_accuracy = tf.keras.metrics.CategoricalAccuracy(name='test_accuracy')
 
 model.compile(optimizer, loss_object, train_accuracy)
-
-# model.summary()
 
 @tf.function
 def train_step(images, labels):
