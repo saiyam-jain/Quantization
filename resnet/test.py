@@ -17,7 +17,7 @@ cifar_trainset = datasets.CIFAR10(root='./data', train=True, download=True, tran
 
 i=0
 for (x,y) in cifar_trainset:
-    print(x)
-    print(y.shape)
+    print(x.size())
+    print(y.size())
     if i==2:
         break
