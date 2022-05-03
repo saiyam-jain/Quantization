@@ -6,11 +6,11 @@ class LambdaLayer:
         super(LambdaLayer, self).__init__()
         self.lambd = lambd
 
-    def forward(self, x):
+    def __call__(self, x):
         return self.lambd(x)
 
 
-class BasicBlock:
+class BasicBlock(tf.keras.Model):
     expansion = 1
 
     def __init__(self, planes, stride=1, option='A'):
@@ -34,7 +34,7 @@ class BasicBlock:
                      tf.keras.layers.BatchNormalization()
                 )
 
-    def call(self, x):
+    def __call__(self, x):
         out = tf.nn.relu(self.bn1(self.conv1(x)))
         out = self.bn2(self.conv2(out))
         out += self.shortcut(x)
@@ -42,7 +42,7 @@ class BasicBlock:
         return out
 
 
-class ResNet:
+class ResNet(tf.keras.Model):
     def __init__(self, block, num_blocks, num_classes=10):
         super(ResNet, self).__init__()
         # self.in_planes = 16
@@ -64,7 +64,7 @@ class ResNet:
 
         return sequential(*layers)
 
-    def call(self, x):
+    def __call__(self, x):
         out = tf.nn.relu(self.bn1(self.conv1(x)))
         out = self.layer1(out)
         out = self.layer2(out)
