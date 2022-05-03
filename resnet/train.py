@@ -91,7 +91,7 @@ train_accuracy = tf.keras.metrics.CategoricalAccuracy(name='train_accuracy')
 
 model.compile(optimizer, loss_object, train_accuracy)
 
-# model.summary()
+model.summary()
 
 @tf.function
 def train_step(images, labels):

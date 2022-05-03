@@ -47,7 +47,7 @@ class ResNet(tf.keras.Model):
         super(ResNet, self).__init__()
         # self.in_planes = 16
 
-        self.conv1 = tf.keras.layers.Conv2D(16, kernel_size=3, strides=1, use_bias=False)
+        self.conv1 = tf.keras.layers.Conv2D(16, kernel_size=3, strides=1, use_bias=False, input_shape=(32, 32, 3))
         self.bn1 = tf.keras.layers.BatchNormalization()
         self.layer1 = self._make_layer(block, 16, num_blocks[0], stride=1)
         self.layer2 = self._make_layer(block, 32, num_blocks[1], stride=2)
