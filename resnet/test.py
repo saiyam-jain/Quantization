@@ -17,9 +17,12 @@ for i, (x, y) in enumerate(cifar_trainset):
     train_images.append(x.numpy())
     train_labels.append(y.numpy())
 
+train_images = np.array(train_images)
+train_labels = np.array(train_labels)
+
 print(train_images.shape)
 print(train_images.dtype)
-print(train_images.min())
-print(train_images.max())
+print(train_images.min)
+print(train_images.max)
 print(train_labels.shape)
 print(train_labels.dtype)
