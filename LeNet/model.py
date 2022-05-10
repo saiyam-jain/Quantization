@@ -43,7 +43,7 @@ def train(first, second, third, fourth, fifth, batch_size=256, epochs=30):
     model.add(QActivation("quantized_tanh(8,0)"))
     model.add(tf.keras.layers.AveragePooling2D())
     model.add(tf.keras.layers.Flatten())
-    model.add(QConv2D(filters=120,
+    model.add(QConv2D(filters=120, kernel_size=(5, 5),
                       kernel_quantizer=quantized_bits(third, 0, 0),
                       bias_quantizer=quantized_bits(32, 0, 0)))
     model.add(QActivation("quantized_tanh(8, 0)"))
