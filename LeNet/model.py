@@ -73,7 +73,7 @@ def train(
 
     # model.summary()
 
-    print_qstats(model)
+    # print_qstats(model)
 
     @tf.function
     def train_step(images, labels):
