@@ -65,9 +65,9 @@ def train(first, second, third, fourth, fifth, batch_size=256, epochs=30):
 
     model.compile(optimizer, loss_object, train_accuracy)
 
-    model.summary()
+    # model.summary()
 
-    # print_qstats(model)
+    print_qstats(model)
 
     @tf.function
     def train_step(images, labels):
