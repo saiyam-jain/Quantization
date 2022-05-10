@@ -31,26 +31,26 @@ def train(first, second, third, fourth, fifth, batch_size=256, epochs=30):
     test_ds = tf.data.Dataset.from_tensor_slices((test_images, test_labels)).batch(batch_size)
 
     model = tf.keras.models.Sequential()
-    model.add(QConv2D(filters=6, kernel_size=(3, 3),
+    model.add(QConv2D(filters=6, kernel_size=(5, 5),
                       kernel_quantizer=quantized_bits(first, 0, 0),
                       bias_quantizer=quantized_bits(32, 0, 0),
                       input_shape=(32, 32, 1)))
-    model.add(QActivation("quantized_relu(8, 0)"))
+    model.add(QActivation("quantized_tanh(8, 0)"))
     model.add(tf.keras.layers.AveragePooling2D())
-    model.add(QConv2D(filters=16, kernel_size=(3, 3),
+    model.add(QConv2D(filters=16, kernel_size=(5, 5),
                       kernel_quantizer=quantized_bits(second, 0, 0),
                       bias_quantizer=quantized_bits(32, 0, 0),))
-    model.add(QActivation("quantized_relu(8,0)"))
+    model.add(QActivation("quantized_tanh(8,0)"))
     model.add(tf.keras.layers.AveragePooling2D())
     model.add(tf.keras.layers.Flatten())
-    model.add(QDense(units=120,
-                     kernel_quantizer=quantized_bits(third, 0, 0),
-                     bias_quantizer=quantized_bits(32, 0, 0)))
-    model.add(QActivation("quantized_relu(8, 0)"))
+    model.add(QConv2D(filters=120,
+                      kernel_quantizer=quantized_bits(third, 0, 0),
+                      bias_quantizer=quantized_bits(32, 0, 0)))
+    model.add(QActivation("quantized_tanh(8, 0)"))
     model.add(QDense(units=84,
                      kernel_quantizer=quantized_bits(fourth, 0, 0),
                      bias_quantizer=quantized_bits(32, 0, 0)))
-    model.add(QActivation("quantized_relu(8, 0)"))
+    model.add(QActivation("quantized_tanh(8, 0)"))
     model.add(QDense(units=10, activation='softmax',
                      kernel_quantizer=quantized_bits(fifth, 0, 0),
                      bias_quantizer=quantized_bits(32, 0, 0)))
@@ -64,6 +64,8 @@ def train(first, second, third, fourth, fifth, batch_size=256, epochs=30):
     test_accuracy = tf.keras.metrics.CategoricalAccuracy(name='test_accuracy')
 
     model.compile(optimizer, loss_object, train_accuracy)
+
+    model.summary()
 
     # print_qstats(model)
 
