@@ -3,7 +3,13 @@ from qkeras import *
 import numpy
 
 
-def train(first, second, third, fourth, fifth, batch_size=256, epochs=30):
+def train(
+        first_wb=8, second_wb=8, third_wb=8, fourth_wb=8, fifth_wb=8,
+        first_ab="quantized_tanh(8, 0)", second_ab="quantized_tanh(8, 0)",
+        third_ab="quantized_tanh(8, 0)", fourth_ab="quantized_tanh(8, 0)",
+        fifth_ab="quantized_tanh(8, 0)",
+        batch_size=256, epochs=30
+):
     tf.keras.backend.clear_session()
     batch_size = batch_size
     epochs = epochs
@@ -32,27 +38,27 @@ def train(first, second, third, fourth, fifth, batch_size=256, epochs=30):
 
     model = tf.keras.models.Sequential()
     model.add(QConv2D(filters=6, kernel_size=(5, 5),
-                      kernel_quantizer=quantized_bits(first, 0, 0),
+                      kernel_quantizer=quantized_bits(first_wb, 0, 0),
                       bias_quantizer=quantized_bits(32, 0, 0),
                       input_shape=(32, 32, 1)))
-    model.add(QActivation("quantized_tanh(8, 0)"))
+    model.add(QActivation(first_ab))
     model.add(tf.keras.layers.AveragePooling2D())
     model.add(QConv2D(filters=16, kernel_size=(5, 5),
-                      kernel_quantizer=quantized_bits(second, 0, 0),
+                      kernel_quantizer=quantized_bits(second_wb, 0, 0),
                       bias_quantizer=quantized_bits(32, 0, 0),))
-    model.add(QActivation("quantized_tanh(8,0)"))
+    model.add(QActivation(second_ab))
     model.add(tf.keras.layers.AveragePooling2D())
     model.add(QConv2D(filters=120, kernel_size=(5, 5),
-                      kernel_quantizer=quantized_bits(third, 0, 0),
+                      kernel_quantizer=quantized_bits(third_wb, 0, 0),
                       bias_quantizer=quantized_bits(32, 0, 0)))
-    model.add(QActivation("quantized_tanh(8, 0)"))
+    model.add(QActivation(third_ab))
     model.add(tf.keras.layers.Flatten())
     model.add(QDense(units=84,
-                     kernel_quantizer=quantized_bits(fourth, 0, 0),
+                     kernel_quantizer=quantized_bits(fourth_wb, 0, 0),
                      bias_quantizer=quantized_bits(32, 0, 0)))
-    model.add(QActivation("quantized_tanh(8, 0)"))
+    model.add(QActivation(fourth_ab))
     model.add(QDense(units=10, activation='softmax',
-                     kernel_quantizer=quantized_bits(fifth, 0, 0),
+                     kernel_quantizer=quantized_bits(fifth_wb, 0, 0),
                      bias_quantizer=quantized_bits(32, 0, 0)))
 
     loss_object = tf.keras.losses.CategoricalCrossentropy()

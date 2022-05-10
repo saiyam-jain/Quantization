@@ -10,263 +10,266 @@ wandb.config = {
     "batch_size": batch_size,
 }
 
-# first = "quantized_relu(8,0)"
-# second = "quantized_relu(8,0)"
-# third = "quantized_relu(8,0)"
-# fourth = "quantized_relu(8,0)"
-# fifth = "quantized_relu(8,0)"
+activations = 1
 
-# print(first, second, third, fourth, fifth)
-# train_loss, train_accuracy, test_loss, test_accuracy = model.train(first,
-#                                                                    second,
-#                                                                    third,
-#                                                                    fourth,
-#                                                                    fifth,
-#                                                                    batch_size=batch_size,
-#                                                                    epochs=epochs)
-# i = 10
-# for first in ["quantized_relu(8,0)", "quantized_relu(6,0)", "quantized_relu(4,0)", "quantized_relu(2,0)"]:
-#     i = i-2
-#     second = "quantized_relu(8,0)"
-#     third = "quantized_relu(8,0)"
-#     fourth = "quantized_relu(8,0)"
-#     fifth = "quantized_relu(8,0)"
-#     print(first, second, third, fourth, fifth)
-#     train_loss, train_accuracy, test_loss, test_accuracy = model.train(first,
-#                                                                        second,
-#                                                                        third,
-#                                                                        fourth,
-#                                                                        fifth,
-#                                                                        batch_size=batch_size,
-#                                                                        epochs=epochs)
-#
-#     wandb.log({
-#         "first layer quantization bits": i,
-#         "second layer quantization bits": 8,
-#         "third layer quantization bits": 8,
-#         "fourth layer quantization bits": 8,
-#         "Train Loss": train_loss,
-#         "Train Accuracy": train_accuracy,
-#         "Test Loss": test_loss,
-#         "Test Accuracy": test_accuracy
-#     })
+if activations == 1:
 
-first = 8
-second = 8
-third = 8
-fourth = 8
-fifth = 8
-for first in [8, 6, 4, 2]:
-    print(first, second, third, fourth, fifth)
-    train_loss, train_accuracy, test_loss, test_accuracy = model.train(first,
-                                                                       second,
-                                                                       third,
-                                                                       fourth,
-                                                                       fifth,
+    first_ab = "quantized_tanh(8,0)"
+    second_ab = "quantized_tanh(8,0)"
+    third_ab = "quantized_tanh(8,0)"
+    fourth_ab = "quantized_tanh(8,0)"
+    fifth_ab = "quantized_tanh(8,0)"
+
+    print(first_ab, second_ab, third_ab, fourth_ab, fifth_ab)
+    train_loss, train_accuracy, test_loss, test_accuracy = model.train(first_ab=first_ab,
+                                                                       second_ab=second_ab,
+                                                                       third_ab=third_ab,
+                                                                       fourth_ab=fourth_ab,
+                                                                       fifth_ab=fifth_ab,
                                                                        batch_size=batch_size,
                                                                        epochs=epochs)
+    i = 10
+    for first_ab in ["quantized_tanh(8,0)", "quantized_tanh(6,0)", "quantized_tanh(4,0)", "quantized_tanh(2,0)"]:
+        i = i-2
+        second_ab = "quantized_tanh(8,0)"
+        third_ab = "quantized_tanh(8,0)"
+        fourth_ab = "quantized_tanh(8,0)"
+        fifth_ab = "quantized_tanh(8,0)"
+        print(first_ab, second_ab, third_ab, fourth_ab, fifth_ab)
+        train_loss, train_accuracy, test_loss, test_accuracy = model.train(first_ab=first_ab,
+                                                                           second_ab=second_ab,
+                                                                           third_ab=third_ab,
+                                                                           fourth_ab=fourth_ab,
+                                                                           fifth_ab=fifth_ab,
+                                                                           batch_size=batch_size,
+                                                                           epochs=epochs)
 
-    wandb.log({
-        "first layer quantization bits": first,
-        "second layer quantization bits": second,
-        "third layer quantization bits": third,
-        "fourth layer quantization bits": fourth,
-        "fifth layer quantization bits": fifth,
-        "Train Loss": train_loss,
-        "Train Accuracy": train_accuracy,
-        "Test Loss": test_loss,
-        "Test Accuracy": test_accuracy
-    })
-
-
-first = 8
-second = 8
-third = 8
-fourth = 8
-fifth = 8
-for second in [8, 6, 4, 2]:
-    print(first, second, third, fourth, fifth)
-    train_loss, train_accuracy, test_loss, test_accuracy = model.train(first,
-                                                                       second,
-                                                                       third,
-                                                                       fourth,
-                                                                       fifth,
-                                                                       batch_size=batch_size,
-                                                                       epochs=epochs)
-
-    wandb.log({
-        "first layer quantization bits": first,
-        "second layer quantization bits": second,
-        "third layer quantization bits": third,
-        "fourth layer quantization bits": fourth,
-        "fifth layer quantization bits": fifth,
-        "Train Loss": train_loss,
-        "Train Accuracy": train_accuracy,
-        "Test Loss": test_loss,
-        "Test Accuracy": test_accuracy
-    })
-
-first = 8
-second = 8
-third = 8
-fourth = 8
-fifth = 8
-for third in [8, 6, 4, 2]:
-    print(first, second, third, fourth, fifth)
-    train_loss, train_accuracy, test_loss, test_accuracy = model.train(first,
-                                                                       second,
-                                                                       third,
-                                                                       fourth,
-                                                                       fifth,
-                                                                       batch_size=batch_size,
-                                                                       epochs=epochs)
-
-    wandb.log({
-        "first layer quantization bits": first,
-        "second layer quantization bits": second,
-        "third layer quantization bits": third,
-        "fourth layer quantization bits": fourth,
-        "fifth layer quantization bits": fifth,
-        "Train Loss": train_loss,
-        "Train Accuracy": train_accuracy,
-        "Test Loss": test_loss,
-        "Test Accuracy": test_accuracy
-    })
-
-first = 8
-second = 8
-third = 8
-fourth = 8
-fifth = 8
-for fourth in [8, 6, 4, 2]:
-    print(first, second, third, fourth, fifth)
-    train_loss, train_accuracy, test_loss, test_accuracy = model.train(first,
-                                                                       second,
-                                                                       third,
-                                                                       fourth,
-                                                                       fifth,
-                                                                       batch_size=batch_size,
-                                                                       epochs=epochs)
-
-    wandb.log({
-        "first layer quantization bits": first,
-        "second layer quantization bits": second,
-        "third layer quantization bits": third,
-        "fourth layer quantization bits": fourth,
-        "fifth layer quantization bits": fifth,
-        "Train Loss": train_loss,
-        "Train Accuracy": train_accuracy,
-        "Test Loss": test_loss,
-        "Test Accuracy": test_accuracy
-    })
-
-first = 8
-second = 8
-third = 8
-fourth = 8
-fifth = 8
-for fifth in [8, 6, 4, 2]:
-    print(first, second, third, fourth, fifth)
-    train_loss, train_accuracy, test_loss, test_accuracy = model.train(first,
-                                                                       second,
-                                                                       third,
-                                                                       fourth,
-                                                                       fifth,
-                                                                       batch_size=batch_size,
-                                                                       epochs=epochs)
-
-    wandb.log({
-        "first layer quantization bits": first,
-        "second layer quantization bits": second,
-        "third layer quantization bits": third,
-        "fourth layer quantization bits": fourth,
-        "fifth layer quantization bits": fifth,
-        "Train Loss": train_loss,
-        "Train Accuracy": train_accuracy,
-        "Test Loss": test_loss,
-        "Test Accuracy": test_accuracy
-    })
+        wandb.log({
+            "first layer activation bits": i,
+            "second layer activation bits": 8,
+            "third layer activation bits": 8,
+            "fourth layer activation bits": 8,
+            "Train Loss": train_loss,
+            "Train Accuracy": train_accuracy,
+            "Test Loss": test_loss,
+            "Test Accuracy": test_accuracy
+        })
 
 
+    i = 10
+    for second_ab in ["quantized_tanh(8,0)", "quantized_tanh(6,0)", "quantized_tanh(4,0)", "quantized_tanh(2,0)"]:
+        i = i-2
+        first_ab = "quantized_tanh(8,0)"
+        third_ab = "quantized_tanh(8,0)"
+        fourth_ab = "quantized_tanh(8,0)"
+        fifth_ab = "quantized_tanh(8,0)"
+        print(first_ab, second_ab, third_ab, fourth_ab, fifth_ab)
+        train_loss, train_accuracy, test_loss, test_accuracy = model.train(first_ab=first_ab,
+                                                                           second_ab=second_ab,
+                                                                           third_ab=third_ab,
+                                                                           fourth_ab=fourth_ab,
+                                                                           fifth_ab=fifth_ab,
+                                                                           batch_size=batch_size,
+                                                                           epochs=epochs)
 
-#
-# i = 10
-# for second in ["quantized_relu(8,0)", "quantized_relu(6,0)", "quantized_relu(4,0)", "quantized_relu(2,0)"]:
-#     i = i - 2
-#     first = "quantized_relu(8,0)"
-#     third = "quantized_relu(8,0)"
-#     fourth = "quantized_relu(8,0)"
-#     fifth = "quantized_relu(8,0)"
-#     print(first, second, third, fourth, fifth)
-#     train_loss, train_accuracy, test_loss, test_accuracy = model.train(first,
-#                                                                        second,
-#                                                                        third,
-#                                                                        fourth,
-#                                                                        fifth,
-#                                                                        batch_size=batch_size,
-#                                                                        epochs=epochs)
-#
-#     wandb.log({
-#         "first layer quantization bits": 8,
-#         "second layer quantization bits": i,
-#         "third layer quantization bits": 8,
-#         "fourth layer quantization bits": 8,
-#         "Train Loss": train_loss,
-#         "Train Accuracy": train_accuracy,
-#         "Test Loss": test_loss,
-#         "Test Accuracy": test_accuracy
-#     })
-#
-# i = 10
-# for third in ["quantized_relu(8,0)", "quantized_relu(6,0)", "quantized_relu(4,0)", "quantized_relu(2,0)"]:
-#     i = i - 2
-#     first = "quantized_relu(8,0)"
-#     second = "quantized_relu(8,0)"
-#     fourth = "quantized_relu(8,0)"
-#     fifth = "quantized_relu(8,0)"
-#     print(first, second, third, fourth, fifth)
-#     train_loss, train_accuracy, test_loss, test_accuracy = model.train(first,
-#                                                                        second,
-#                                                                        third,
-#                                                                        fourth,
-#                                                                        fifth,
-#                                                                        batch_size=batch_size,
-#                                                                        epochs=epochs)
-#
-#     wandb.log({
-#         "first layer quantization bits": 8,
-#         "second layer quantization bits": 8,
-#         "third layer quantization bits": i,
-#         "fourth layer quantization bits": 8,
-#         "Train Loss": train_loss,
-#         "Train Accuracy": train_accuracy,
-#         "Test Loss": test_loss,
-#         "Test Accuracy": test_accuracy
-#     })
-#
-# i = 10
-# for fourth in ["quantized_relu(8,0)", "quantized_relu(6,0)", "quantized_relu(4,0)", "quantized_relu(2,0)"]:
-#     i = i - 2
-#     first = "quantized_relu(8,0)"
-#     second = "quantized_relu(8,0)"
-#     third = "quantized_relu(8,0)"
-#     fifth = "quantized_relu(8,0)"
-#     print(first, second, third, fourth, fifth)
-#     train_loss, train_accuracy, test_loss, test_accuracy = model.train(first,
-#                                                                        second,
-#                                                                        third,
-#                                                                        fourth,
-#                                                                        fifth,
-#                                                                        batch_size=batch_size,
-#                                                                        epochs=epochs)
-#
-#     wandb.log({
-#         "first layer quantization bits": 8,
-#         "second layer quantization bits": 8,
-#         "third layer quantization bits": 8,
-#         "fourth layer quantization bits": i,
-#         "Train Loss": train_loss,
-#         "Train Accuracy": train_accuracy,
-#         "Test Loss": test_loss,
-#         "Test Accuracy": test_accuracy
-#     })
+        wandb.log({
+            "first layer activation bits": 8,
+            "second layer activation bits": i,
+            "third layer activation bits": 8,
+            "fourth layer activation bits": 8,
+            "Train Loss": train_loss,
+            "Train Accuracy": train_accuracy,
+            "Test Loss": test_loss,
+            "Test Accuracy": test_accuracy
+        })
+
+    i = 10
+    for third_ab in ["quantized_tanh(8,0)", "quantized_tanh(6,0)", "quantized_tanh(4,0)", "quantized_tanh(2,0)"]:
+        i = i-2
+        first_ab = "quantized_tanh(8,0)"
+        second_ab = "quantized_tanh(8,0)"
+        fourth_ab = "quantized_tanh(8,0)"
+        fifth_ab = "quantized_tanh(8,0)"
+        print(first_ab, second_ab, third_ab, fourth_ab, fifth_ab)
+        train_loss, train_accuracy, test_loss, test_accuracy = model.train(first_ab=first_ab,
+                                                                           second_ab=second_ab,
+                                                                           third_ab=third_ab,
+                                                                           fourth_ab=fourth_ab,
+                                                                           fifth_ab=fifth_ab,
+                                                                           batch_size=batch_size,
+                                                                           epochs=epochs)
+
+        wandb.log({
+            "first layer activation bits": 8,
+            "second layer activation bits": 8,
+            "third layer activation bits": i,
+            "fourth layer activation bits": 8,
+            "Train Loss": train_loss,
+            "Train Accuracy": train_accuracy,
+            "Test Loss": test_loss,
+            "Test Accuracy": test_accuracy
+        })
+
+    i = 10
+    for fourth_ab in ["quantized_tanh(8,0)", "quantized_tanh(6,0)", "quantized_tanh(4,0)", "quantized_tanh(2,0)"]:
+        i = i-2
+        first_ab = "quantized_tanh(8,0)"
+        second_ab = "quantized_tanh(8,0)"
+        third_ab = "quantized_tanh(8,0)"
+        fifth_ab = "quantized_tanh(8,0)"
+        print(first_ab, second_ab, third_ab, fourth_ab, fifth_ab)
+        train_loss, train_accuracy, test_loss, test_accuracy = model.train(first_ab=first_ab,
+                                                                           second_ab=second_ab,
+                                                                           third_ab=third_ab,
+                                                                           fourth_ab=fourth_ab,
+                                                                           fifth_ab=fifth_ab,
+                                                                           batch_size=batch_size,
+                                                                           epochs=epochs)
+
+        wandb.log({
+            "first layer activation bits": 8,
+            "second layer activation bits": 8,
+            "third layer activation bits": 8,
+            "fourth layer activation bits": i,
+            "Train Loss": train_loss,
+            "Train Accuracy": train_accuracy,
+            "Test Loss": test_loss,
+            "Test Accuracy": test_accuracy
+        })
+
+else:
+
+    first_wb = 8
+    second_wb = 8
+    third_wb = 8
+    fourth_wb = 8
+    fifth_wb = 8
+    for first_wb in [8, 6, 4, 2]:
+        print(first_wb, second_wb, third_wb, fourth_wb, fifth_wb)
+        train_loss, train_accuracy, test_loss, test_accuracy = model.train(first_wb=first_wb,
+                                                                           second_wb=second_wb,
+                                                                           third_wb=third_wb,
+                                                                           fourth_wb=fourth_wb,
+                                                                           fifth_wb=fifth_wb,
+                                                                           batch_size=batch_size,
+                                                                           epochs=epochs)
+
+        wandb.log({
+            "first layer quantization bits": first_wb,
+            "second layer quantization bits": second_wb,
+            "third layer quantization bits": third_wb,
+            "fourth layer quantization bits": fourth_wb,
+            "fifth layer quantization bits": fifth_wb,
+            "Train Loss": train_loss,
+            "Train Accuracy": train_accuracy,
+            "Test Loss": test_loss,
+            "Test Accuracy": test_accuracy
+        })
+
+    first_wb = 8
+    second_wb = 8
+    third_wb = 8
+    fourth_wb = 8
+    fifth_wb = 8
+    for second_wb in [8, 6, 4, 2]:
+        print(first_wb, second_wb, third_wb, fourth_wb, fifth_wb)
+        train_loss, train_accuracy, test_loss, test_accuracy = model.train(first_wb=first_wb,
+                                                                           second_wb=second_wb,
+                                                                           third_wb=third_wb,
+                                                                           fourth_wb=fourth_wb,
+                                                                           fifth_wb=fifth_wb,
+                                                                           batch_size=batch_size,
+                                                                           epochs=epochs)
+
+        wandb.log({
+            "first layer quantization bits": first_wb,
+            "second layer quantization bits": second_wb,
+            "third layer quantization bits": third_wb,
+            "fourth layer quantization bits": fourth_wb,
+            "fifth layer quantization bits": fifth_wb,
+            "Train Loss": train_loss,
+            "Train Accuracy": train_accuracy,
+            "Test Loss": test_loss,
+            "Test Accuracy": test_accuracy
+        })
+
+    first_wb = 8
+    second_wb = 8
+    third_wb = 8
+    fourth_wb = 8
+    fifth_wb = 8
+    for third_wb in [8, 6, 4, 2]:
+        print(first_wb, second_wb, third_wb, fourth_wb, fifth_wb)
+        train_loss, train_accuracy, test_loss, test_accuracy = model.train(first_wb=first_wb,
+                                                                           second_wb=second_wb,
+                                                                           third_wb=third_wb,
+                                                                           fourth_wb=fourth_wb,
+                                                                           fifth_wb=fifth_wb,
+                                                                           batch_size=batch_size,
+                                                                           epochs=epochs)
+
+        wandb.log({
+            "first layer quantization bits": first_wb,
+            "second layer quantization bits": second_wb,
+            "third layer quantization bits": third_wb,
+            "fourth layer quantization bits": fourth_wb,
+            "fifth layer quantization bits": fifth_wb,
+            "Train Loss": train_loss,
+            "Train Accuracy": train_accuracy,
+            "Test Loss": test_loss,
+            "Test Accuracy": test_accuracy
+        })
+
+    first_wb = 8
+    second_wb = 8
+    third_wb = 8
+    fourth_wb = 8
+    fifth_wb = 8
+    for fourth_wb in [8, 6, 4, 2]:
+        print(first_wb, second_wb, third_wb, fourth_wb, fifth_wb)
+        train_loss, train_accuracy, test_loss, test_accuracy = model.train(first_wb=first_wb,
+                                                                           second_wb=second_wb,
+                                                                           third_wb=third_wb,
+                                                                           fourth_wb=fourth_wb,
+                                                                           fifth_wb=fifth_wb,
+                                                                           batch_size=batch_size,
+                                                                           epochs=epochs)
+
+        wandb.log({
+            "first layer quantization bits": first_wb,
+            "second layer quantization bits": second_wb,
+            "third layer quantization bits": third_wb,
+            "fourth layer quantization bits": fourth_wb,
+            "fifth layer quantization bits": fifth_wb,
+            "Train Loss": train_loss,
+            "Train Accuracy": train_accuracy,
+            "Test Loss": test_loss,
+            "Test Accuracy": test_accuracy
+        })
+
+    first_wb = 8
+    second_wb = 8
+    third_wb = 8
+    fourth_wb = 8
+    fifth_wb = 8
+    for fifth_wb in [8, 6, 4, 2]:
+        print(first_wb, second_wb, third_wb, fourth_wb, fifth_wb)
+        train_loss, train_accuracy, test_loss, test_accuracy = model.train(first_wb=first_wb,
+                                                                           second_wb=second_wb,
+                                                                           third_wb=third_wb,
+                                                                           fourth_wb=fourth_wb,
+                                                                           fifth_wb=fifth_wb,
+                                                                           batch_size=batch_size,
+                                                                           epochs=epochs)
+
+        wandb.log({
+            "first layer quantization bits": first_wb,
+            "second layer quantization bits": second_wb,
+            "third layer quantization bits": third_wb,
+            "fourth layer quantization bits": fourth_wb,
+            "fifth layer quantization bits": fifth_wb,
+            "Train Loss": train_loss,
+            "Train Accuracy": train_accuracy,
+            "Test Loss": test_loss,
+            "Test Accuracy": test_accuracy
+        })
