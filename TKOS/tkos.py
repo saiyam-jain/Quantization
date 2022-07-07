@@ -62,8 +62,8 @@ def load_data():
     n_images = images.shape[0]
     np.random.shuffle(images)
     labels = np.array(labels)
-    images = tf.data.Dataset(tf.convert_to_tensor(images))
-    labels = tf.data.Dataset(tf.convert_to_tensor(labels))
+    images = tf.data.Dataset(images)
+    labels = tf.data.Dataset(labels)
     labels = tf.keras.utils.to_categorical(labels, 2)
     n_train = int(train_split * n_images)
     train_images = images.take(n_train)
