@@ -60,7 +60,7 @@ def load_data():
 
     images = np.array(images)
     n_images = images.shape[0]
-    images = images.shuffle(n_images)
+    np.random.shuffle(images)
     labels = np.array(labels)
     labels = tf.keras.utils.to_categorical(labels, 2)
     n_train = int(train_split * n_images)
