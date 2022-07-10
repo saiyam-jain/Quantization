@@ -3,6 +3,7 @@ import tensorflow as tf
 
 
 shape = (301, 401, 80)
+EPOCHS = 10
 
 
 def load_data():
@@ -81,35 +82,76 @@ def load_data():
 
 
 def create_model():
-    model = tf.keras.Sequential()
+    tf_model = tf.keras.Sequential()
 
-    model.add(tf.keras.layers.Conv2D(64, (3, 3), activation='relu', input_shape=shape))
-    model.add(tf.keras.layers.MaxPool2D(2, 2))
+    tf_model.add(tf.keras.layers.Conv2D(64, (3, 3), activation='relu', input_shape=shape))
+    tf_model.add(tf.keras.layers.MaxPool2D(2, 2))
+    tf_model.add(tf.keras.layers.Conv2D(64, (3, 3), activation='relu'))
+    tf_model.add(tf.keras.layers.MaxPool2D(2, 2))
+    tf_model.add(tf.keras.layers.Conv2D(128, (3, 3), activation='relu'))
+    tf_model.add(tf.keras.layers.MaxPool2D(2, 2))
+    tf_model.add(tf.keras.layers.Conv2D(128, (3, 3), activation='relu'))
+    tf_model.add(tf.keras.layers.MaxPool2D(2, 2))
+    tf_model.add(tf.keras.layers.Conv2D(256, (3, 3), activation='relu'))
+    tf_model.add(tf.keras.layers.MaxPool2D(2, 2))
+    tf_model.add(tf.keras.layers.Conv2D(256, (3, 3), activation='relu'))
+    tf_model.add(tf.keras.layers.MaxPool2D(2, 2))
+    tf_model.add(tf.keras.layers.Flatten())
+    tf_model.add(tf.keras.layers.Dense(512, activation='relu'))
+    tf_model.add(tf.keras.layers.Dense(256, activation='relu'))
+    tf_model.add(tf.keras.layers.Dense(2, activation='softmax'))
 
-    model.add(tf.keras.layers.Conv2D(64, (3, 3), activation='relu'))
-    model.add(tf.keras.layers.MaxPool2D(2, 2))
-
-    model.add(tf.keras.layers.Conv2D(128, (3, 3), activation='relu'))
-    model.add(tf.keras.layers.MaxPool2D(2, 2))
-
-    model.add(tf.keras.layers.Conv2D(128, (3, 3), activation='relu'))
-    model.add(tf.keras.layers.MaxPool2D(2, 2))
-
-    model.add(tf.keras.layers.Conv2D(256, (3, 3), activation='relu'))
-    model.add(tf.keras.layers.MaxPool2D(2, 2))
-
-    model.add(tf.keras.layers.Conv2D(256, (3, 3), activation='relu'))
-    model.add(tf.keras.layers.MaxPool2D(2, 2))
-
-    model.add(tf.keras.layers.Flatten())
-
-    model.add(tf.keras.layers.Dense(512, activation='relu'))
-
-    model.add(tf.keras.layers.Dense(2, activation='softmax'))
-
-    model.summary()
+    tf_model.summary()
+    return tf_model
 
 
-create_model()
-# train_ds, test_ds = load_data()
+@tf.function
+def train_step(images, labels):
+    with tf.GradientTape() as tape:
+        predictions = model(images, training=True)
+        loss = loss_object(labels, predictions)
+    gradients = tape.gradient(loss, model.trainable_variables)
+    optimizer.apply_gradients(zip(gradients, model.trainable_variables))
+    train_loss(loss)
+    train_accuracy(labels, predictions)
 
+
+@tf.function
+def test_step(images, labels):
+    predictions = model(images, training=False)
+    t_loss = loss_object(labels, predictions)
+    test_loss(t_loss)
+    test_accuracy(labels, predictions)
+
+
+model = create_model()
+loss_object = tf.keras.losses.CategoricalCrossentropy()
+optimizer = tf.keras.optimizers.Adam()
+
+train_loss = tf.keras.metrics.Mean(name='train_loss')
+train_accuracy = tf.keras.metrics.CategoricalAccuracy(name='train_accuracy')
+test_loss = tf.keras.metrics.Mean(name='test_loss')
+test_accuracy = tf.keras.metrics.CategoricalAccuracy(name='test_accuracy')
+
+model.compile(optimizer, loss_object, train_accuracy)
+train_ds, test_ds = load_data()
+
+for epoch in range(EPOCHS):
+    train_loss.reset_states()
+    train_accuracy.reset_states()
+    test_loss.reset_states()
+    test_accuracy.reset_states()
+
+    for images, labels in train_ds:
+        train_step(images, labels)
+
+    for test_images, test_labels in test_ds:
+        test_step(test_images, test_labels)
+
+    print(
+        f'Epoch {epoch + 1}, '
+        f'Loss: {train_loss.result()}, '
+        f'Accuracy: {train_accuracy.result() * 100}, '
+        f'Test Loss: {test_loss.result()}, '
+        f'Test Accuracy: {test_accuracy.result() * 100}'
+    )
