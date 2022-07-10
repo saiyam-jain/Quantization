@@ -13,83 +13,85 @@ def load_data():
     n_files = 100
     train_split = 0.8
 
-    for i in range(n_files):
-        try:
-            image = np.fromfile('data/Alpenmilch/Alpenmilch/{:03}_A.bin'.format(i+1), dtype='float32', sep="")
-            image = image[3:]
-            image = image.reshape(shape)
-            images.append(image)
-            labels.append(0)
-            image = np.fromfile('data/Alpenmilch/Alpenmilch/{:03}_P.bin'.format(i + 1), dtype='float32', sep="")
-            image = image[3:]
-            image = image.reshape(shape)
-            images.append(image)
-            labels.append(0)
-        except:
-            continue
+    for j in range(0, 100, 10):
 
-    for i in range(n_files):
-        try:
-            image = np.fromfile('data/Ganze_Haselnuss/Ganze_Haselnuss/{:03}_A.bin'.format(i+1), dtype='float32', sep="")
-            image = image[3:]
-            image = image.reshape(shape)
-            images.append(image)
-            labels.append(0)
-            image = np.fromfile('data/Ganze_Haselnuss/Ganze_Haselnuss/{:03}_P.bin'.format(i+1), dtype='float32', sep="")
-            image = image[3:]
-            image = image.reshape(shape)
-            images.append(image)
-            labels.append(0)
-        except:
-            continue
+        for i in range(j, j+10):
+            try:
+                image = np.fromfile('data/Alpenmilch/Alpenmilch/{:03}_A.bin'.format(i+1), dtype='float32', sep="")
+                image = image[3:]
+                image = image.reshape(shape)
+                images.append(image)
+                labels.append(0)
+                image = np.fromfile('data/Alpenmilch/Alpenmilch/{:03}_P.bin'.format(i + 1), dtype='float32', sep="")
+                image = image[3:]
+                image = image.reshape(shape)
+                images.append(image)
+                labels.append(0)
+            except:
+                continue
 
-    for i in range(n_files):
-        try:
-            image = np.fromfile('data/Haselnuss/Haselnuss/{:03}_A.bin'.format(i+1), dtype='float32', sep="")
-            image = image[3:]
-            image = image.reshape(shape)
-            images.append(image)
-            labels.append(0)
-            image = np.fromfile('data/Haselnuss/Haselnuss/{:03}_P.bin'.format(i + 1), dtype='float32', sep="")
-            image = image[3:]
-            image = image.reshape(shape)
-            images.append(image)
-            labels.append(0)
-        except:
-            continue
+        for i in range(j, j+10):
+            try:
+                image = np.fromfile('data/Ganze_Haselnuss/Ganze_Haselnuss/{:03}_A.bin'.format(i+1), dtype='float32', sep="")
+                image = image[3:]
+                image = image.reshape(shape)
+                images.append(image)
+                labels.append(0)
+                image = np.fromfile('data/Ganze_Haselnuss/Ganze_Haselnuss/{:03}_P.bin'.format(i+1), dtype='float32', sep="")
+                image = image[3:]
+                image = image.reshape(shape)
+                images.append(image)
+                labels.append(0)
+            except:
+                continue
 
-    image = np.fromfile('data/Alpenmilch/Alpenmilch/100_A_impurities.bin', dtype='float32', sep="")
-    image = image[3:]
-    image = image.reshape(shape)
-    images.append(image)
-    labels.append(1)
-    image = np.fromfile('data/Alpenmilch/Alpenmilch/100_P_impurities.bin', dtype='float32', sep="")
-    image = image[3:]
-    image = image.reshape(shape)
-    images.append(image)
-    labels.append(1)
+        for i in range(j, j+10):
+            try:
+                image = np.fromfile('data/Haselnuss/Haselnuss/{:03}_A.bin'.format(i+1), dtype='float32', sep="")
+                image = image[3:]
+                image = image.reshape(shape)
+                images.append(image)
+                labels.append(0)
+                image = np.fromfile('data/Haselnuss/Haselnuss/{:03}_P.bin'.format(i + 1), dtype='float32', sep="")
+                image = image[3:]
+                image = image.reshape(shape)
+                images.append(image)
+                labels.append(0)
+            except:
+                continue
 
-    image = np.fromfile('data/Ganze_Haselnuss/Ganze_Haselnuss/100_A_impurities.bin', dtype='float32', sep="")
-    image = image[3:]
-    image = image.reshape(shape)
-    images.append(image)
-    labels.append(1)
-    image = np.fromfile('data/Ganze_Haselnuss/Ganze_Haselnuss/100_P_impurities.bin', dtype='float32', sep="")
-    image = image[3:]
-    image = image.reshape(shape)
-    images.append(image)
-    labels.append(1)
+        image = np.fromfile('data/Alpenmilch/Alpenmilch/100_A_impurities.bin', dtype='float32', sep="")
+        image = image[3:]
+        image = image.reshape(shape)
+        images.append(image)
+        labels.append(1)
+        image = np.fromfile('data/Alpenmilch/Alpenmilch/100_P_impurities.bin', dtype='float32', sep="")
+        image = image[3:]
+        image = image.reshape(shape)
+        images.append(image)
+        labels.append(1)
 
-    image = np.fromfile('data/Haselnuss/Haselnuss/100_A_impurities.bin', dtype='float32', sep="")
-    image = image[3:]
-    image = image.reshape(shape)
-    images.append(image)
-    labels.append(1)
-    image = np.fromfile('data/Haselnuss/Haselnuss/100_P_impurities.bin', dtype='float32', sep="")
-    image = image[3:]
-    image = image.reshape(shape)
-    images.append(image)
-    labels.append(1)
+        image = np.fromfile('data/Ganze_Haselnuss/Ganze_Haselnuss/100_A_impurities.bin', dtype='float32', sep="")
+        image = image[3:]
+        image = image.reshape(shape)
+        images.append(image)
+        labels.append(1)
+        image = np.fromfile('data/Ganze_Haselnuss/Ganze_Haselnuss/100_P_impurities.bin', dtype='float32', sep="")
+        image = image[3:]
+        image = image.reshape(shape)
+        images.append(image)
+        labels.append(1)
+
+        image = np.fromfile('data/Haselnuss/Haselnuss/100_A_impurities.bin', dtype='float32', sep="")
+        image = image[3:]
+        image = image.reshape(shape)
+        images.append(image)
+        labels.append(1)
+        image = np.fromfile('data/Haselnuss/Haselnuss/100_P_impurities.bin', dtype='float32', sep="")
+        image = image[3:]
+        image = image.reshape(shape)
+        images.append(image)
+        labels.append(1)
 
     images = np.array(images)
     labels = np.array(labels)
