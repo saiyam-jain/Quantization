@@ -5,8 +5,8 @@ import tensorflow as tf
 def load_data():
     images = []
     labels = []
-    shape = (80, 401, 301)
-    n_files = 1
+    shape = (301, 401, 80)
+    n_files = 100
     train_split = 0.8
 
     for i in range(n_files):
@@ -73,8 +73,9 @@ def load_data():
     print(train_labels.shape)
     print(test_labels.shape)
 
-    train_ds = tf.data.Dataset.from_tensor_slices((train_images, train_labels)).shuffle(n_train)
-    test_ds = tf.data.Dataset.from_tensor_slices((test_images, test_labels))
+    train = tf.data.Dataset.from_tensor_slices((train_images, train_labels)).shuffle(n_train)
+    test = tf.data.Dataset.from_tensor_slices((test_images, test_labels))
+    return train, test
 
 
-load_data()
+train_ds, test_ds = load_data()
