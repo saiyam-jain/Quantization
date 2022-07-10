@@ -5,13 +5,13 @@ import tensorflow as tf
 shape = (301, 401, 80)
 EPOCHS = 100
 batch_size = 32
+n_files = 100
+train_split = 0.9
 
 
 def load_data():
     images = []
     labels = []
-    n_files = 100
-    train_split = 0.8
 
     for j in range(0, 100, 10):
 
