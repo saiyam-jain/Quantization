@@ -59,22 +59,23 @@ def load_data():
     labels.append(1)
 
     images = np.array(images)
-    n_images = images.shape[0]
     labels = np.array(labels)
-    images = tf.convert_to_tensor(images)
-    labels = tf.convert_to_tensor(labels)
-    labels = tf.keras.utils.to_categorical(labels, 2)
+    n_images = images.shape[0]
     n_train = int(train_split * n_images)
-    train_images = images.take(n_train)
-    test_images = images.skip(n_train)
-    train_labels = labels.take(n_train)
-    test_labels = labels.skip(n_train)
+    train_images = tf.convert_to_tensor(images[0:n_train, :])
+    test_images = tf.convert_to_tensor(images[n_train:, :])
+    train_labels = tf.convert_to_tensor(labels[0:n_train])
+    test_labels = tf.convert_to_tensor(labels[n_train:])
+    train_labels = tf.keras.utils.to_categorical(train_labels, 2)
+    test_labels = tf.keras.utils.to_categorical(test_labels, 2)
+
     print(train_images.shape)
     print(test_images.shape)
     print(train_labels.shape)
     print(test_labels.shape)
-    #
-    # train_ds = tf.data.Dataset.from_tensor_slices((train_images, train_labels)).shuffle(n_train).batch(batch_size)
-    # test_ds = tf.data.Dataset.from_tensor_slices((test_images, test_labels)).batch(batch_size)
+
+    train_ds = tf.data.Dataset.from_tensor_slices((train_images, train_labels)).shuffle(n_train).batch(batch_size)
+    test_ds = tf.data.Dataset.from_tensor_slices((test_images, test_labels)).batch(batch_size)
+
 
 load_data()
