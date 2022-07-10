@@ -71,6 +71,9 @@ def load_data():
     train_labels = tf.keras.utils.to_categorical(train_labels, 2)
     test_labels = tf.keras.utils.to_categorical(test_labels, 2)
 
+    train_images = train_images.reshape((n_train, 301, 401, 80))
+    test_images = test_images.reshape((n_images - n_train, 301, 401, 80))
+
     print(train_images.shape)
     print(test_images.shape)
     print(train_labels.shape)
