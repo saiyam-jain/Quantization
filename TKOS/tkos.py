@@ -2,10 +2,12 @@ import numpy as np
 import tensorflow as tf
 
 
+shape = (301, 401, 80)
+
+
 def load_data():
     images = []
     labels = []
-    shape = (301, 401, 80)
     n_files = 100
     train_split = 0.8
 
@@ -78,4 +80,36 @@ def load_data():
     return train, test
 
 
-train_ds, test_ds = load_data()
+def create_model():
+    model = tf.keras.Sequential()
+
+    model.add(tf.keras.layers.Conv2D(64, (3, 3), activation='relu', input_shape=shape))
+    model.add(tf.keras.layers.MaxPool2D(2, 2))
+
+    model.add(tf.keras.layers.Conv2D(64, (3, 3), activation='relu'))
+    model.add(tf.keras.layers.MaxPool2D(2, 2))
+
+    model.add(tf.keras.layers.Conv2D(128, (3, 3), activation='relu'))
+    model.add(tf.keras.layers.MaxPool2D(2, 2))
+
+    model.add(tf.keras.layers.Conv2D(128, (3, 3), activation='relu'))
+    model.add(tf.keras.layers.MaxPool2D(2, 2))
+
+    model.add(tf.keras.layers.Conv2D(256, (3, 3), activation='relu'))
+    model.add(tf.keras.layers.MaxPool2D(2, 2))
+
+    model.add(tf.keras.layers.Conv2D(256, (3, 3), activation='relu'))
+    model.add(tf.keras.layers.MaxPool2D(2, 2))
+
+    model.add(tf.keras.layers.Flatten())
+
+    model.add(tf.keras.layers.Dense(512, activation='relu'))
+
+    model.add(tf.keras.layers.Dense(2, activation='softmax'))
+
+    model.summary()
+
+
+create_model()
+# train_ds, test_ds = load_data()
+
