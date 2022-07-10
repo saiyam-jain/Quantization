@@ -4,6 +4,7 @@ import tensorflow as tf
 
 shape = (301, 401, 80)
 EPOCHS = 10
+batch_size = 10
 
 
 def load_data():
@@ -76,8 +77,8 @@ def load_data():
     print(train_labels.shape)
     print(test_labels.shape)
 
-    train = tf.data.Dataset.from_tensor_slices((train_images, train_labels)).shuffle(n_train)
-    test = tf.data.Dataset.from_tensor_slices((test_images, test_labels))
+    train = tf.data.Dataset.from_tensor_slices((train_images, train_labels)).shuffle(n_train).batch(batch_size)
+    test = tf.data.Dataset.from_tensor_slices((test_images, test_labels)).batch(batch_size)
     return train, test
 
 
