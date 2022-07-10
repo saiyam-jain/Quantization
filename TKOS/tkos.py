@@ -106,22 +106,22 @@ def create_model():
 
 
 @tf.function
-def train_step(images, labels):
+def train_step(image, label):
     with tf.GradientTape() as tape:
-        predictions = model(images, training=True)
-        loss = loss_object(labels, predictions)
+        predictions = model(image, training=True)
+        loss = loss_object(label, predictions)
     gradients = tape.gradient(loss, model.trainable_variables)
     optimizer.apply_gradients(zip(gradients, model.trainable_variables))
     train_loss(loss)
-    train_accuracy(labels, predictions)
+    train_accuracy(label, predictions)
 
 
 @tf.function
-def test_step(images, labels):
-    predictions = model(images, training=False)
-    t_loss = loss_object(labels, predictions)
+def test_step(image, label):
+    predictions = model(image, training=False)
+    t_loss = loss_object(label, predictions)
     test_loss(t_loss)
-    test_accuracy(labels, predictions)
+    test_accuracy(label, predictions)
 
 
 model = create_model()
@@ -135,11 +135,6 @@ test_accuracy = tf.keras.metrics.CategoricalAccuracy(name='test_accuracy')
 
 model.compile(optimizer, loss_object, train_accuracy)
 train_ds, test_ds = load_data()
-
-for test_image, test_label in test_ds:
-    print(test_image.shape)
-    print(test_label)
-
 
 for epoch in range(EPOCHS):
     train_loss.reset_states()
