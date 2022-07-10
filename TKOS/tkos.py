@@ -3,8 +3,8 @@ import tensorflow as tf
 
 
 shape = (301, 401, 80)
-EPOCHS = 10
-batch_size = 10
+EPOCHS = 100
+batch_size = 32
 
 
 def load_data():
@@ -20,12 +20,22 @@ def load_data():
             image = image.reshape(shape)
             images.append(image)
             labels.append(0)
+            image = np.fromfile('data/Alpenmilch/Alpenmilch/{:03}_P.bin'.format(i + 1), dtype='float32', sep="")
+            image = image[3:]
+            image = image.reshape(shape)
+            images.append(image)
+            labels.append(0)
         except:
             continue
 
     for i in range(n_files):
         try:
             image = np.fromfile('data/Ganze_Haselnuss/Ganze_Haselnuss/{:03}_A.bin'.format(i+1), dtype='float32', sep="")
+            image = image[3:]
+            image = image.reshape(shape)
+            images.append(image)
+            labels.append(0)
+            image = np.fromfile('data/Ganze_Haselnuss/Ganze_Haselnuss/{:03}_P.bin'.format(i+1), dtype='float32', sep="")
             image = image[3:]
             image = image.reshape(shape)
             images.append(image)
@@ -40,10 +50,20 @@ def load_data():
             image = image.reshape(shape)
             images.append(image)
             labels.append(0)
+            image = np.fromfile('data/Haselnuss/Haselnuss/{:03}_P.bin'.format(i + 1), dtype='float32', sep="")
+            image = image[3:]
+            image = image.reshape(shape)
+            images.append(image)
+            labels.append(0)
         except:
             continue
 
     image = np.fromfile('data/Alpenmilch/Alpenmilch/100_A_impurities.bin', dtype='float32', sep="")
+    image = image[3:]
+    image = image.reshape(shape)
+    images.append(image)
+    labels.append(1)
+    image = np.fromfile('data/Alpenmilch/Alpenmilch/100_P_impurities.bin', dtype='float32', sep="")
     image = image[3:]
     image = image.reshape(shape)
     images.append(image)
@@ -54,8 +74,18 @@ def load_data():
     image = image.reshape(shape)
     images.append(image)
     labels.append(1)
+    image = np.fromfile('data/Ganze_Haselnuss/Ganze_Haselnuss/100_P_impurities.bin', dtype='float32', sep="")
+    image = image[3:]
+    image = image.reshape(shape)
+    images.append(image)
+    labels.append(1)
 
     image = np.fromfile('data/Haselnuss/Haselnuss/100_A_impurities.bin', dtype='float32', sep="")
+    image = image[3:]
+    image = image.reshape(shape)
+    images.append(image)
+    labels.append(1)
+    image = np.fromfile('data/Haselnuss/Haselnuss/100_P_impurities.bin', dtype='float32', sep="")
     image = image[3:]
     image = image.reshape(shape)
     images.append(image)
