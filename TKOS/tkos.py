@@ -8,7 +8,6 @@ def load_data():
     shape = (80, 401, 301)
     n_files = 1
     train_split = 0.8
-    test_split = 0.2
 
     for i in range(n_files):
         try:
@@ -74,8 +73,8 @@ def load_data():
     print(train_labels.shape)
     print(test_labels.shape)
 
-    train_ds = tf.data.Dataset.from_tensor_slices((train_images, train_labels)).shuffle(n_train).batch(batch_size)
-    test_ds = tf.data.Dataset.from_tensor_slices((test_images, test_labels)).batch(batch_size)
+    train_ds = tf.data.Dataset.from_tensor_slices((train_images, train_labels)).shuffle(n_train)
+    test_ds = tf.data.Dataset.from_tensor_slices((test_images, test_labels))
 
 
 load_data()
