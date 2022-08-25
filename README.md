@@ -13,3 +13,10 @@
  
 ### Resnet
  - Train Resnet for CIFAR dataset
+
+### virtual environment on HPC:
+source /daten/qkeras/bin/activate
+
+### saiyam's folder on HPC:
+cd /home/IPMS.FRAUNHOFER.DE/sai69199
+
